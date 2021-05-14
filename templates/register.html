@@ -5,7 +5,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
         <meta name="description" content="" />
         <meta name="author" content="" />
-        <title>Login Page</title>
+        <title>Register</title>
         <!-- Favicon-->
         <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
         <!-- Font Awesome icons (free version)-->
@@ -25,9 +25,30 @@
                 <a class="btn btn-primary" href="{{ url_for('register') }}">Register</a>
             </div>
         </nav>
-
-        {% block content %}
-        {% endblock %}
+        <!-- Masthead-->
+        <header class="masthead text-white text-center">
+            <div class="overlay"></div>
+            <div class="container">
+                <div class="row">
+                    <div class="col-xl-9 mx-auto"><h1 class="mb-5">Register today to log your first session!</h1></div>
+                    <div class="col-md-10 col-lg-8 col-xl-7 mx-auto">
+                        <form>
+                            <div class="form-row">
+                                <div class="col-12 col-md-9 mb-2 mb-md-0"><input class="form-control form-control-lg" type="text" name="full-name" id="full-name" required placeholder="Enter your full name..." /></div>
+                                <div class="col-12 col-md-9 mb-2 mb-md-0 mt-2"><input class="form-control form-control-lg" type="text" name="username" id="username" required placeholder="Choose your username..." /></div>
+                                <div class="col-12 col-md-9 mb-2 mb-md-0 mt-2"><input class="form-control form-control-lg" type="password" name="password" id="password" required placeholder="Enter your password..." /></div>
+                                <div class="col-12 col-md-9 mb-2 mb-md-0 mt-2"><input class="form-control form-control-lg" type="password" name="password" id="password" required placeholder="Confirm your password..." /></div>
+                                <div class="col-12 col-md-9 mb-2 mb-md-0 mt-2"><input class="form-control form-control-lg" type="date" name="dob" id="dob" required placeholder="Date of Birth..." /></div>
+                                <div class="col-12 col-md-3 mt-2"><button class="btn btn-block btn-lg btn-primary" type="submit">Register!</button></div>
+                            </div>
+                        </form>
+                    <div class="mt-2 sub-sign-in-text">
+                        <p>Not a member? Register <a href="#">here</a></p>
+                    </div>
+                    </div>
+                </div>
+            </div>
+        </header>
 
         <!-- Footer-->
         <footer class="footer bg-light">
