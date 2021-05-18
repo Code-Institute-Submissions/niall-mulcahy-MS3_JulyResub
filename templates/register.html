@@ -34,16 +34,17 @@
                     <div class="col-md-10 col-lg-8 col-xl-7 mx-auto">
                         <form>
                             <div class="form-row">
-                                <div class="col-12 col-md-9 mb-2 mb-md-0"><input class="form-control form-control-lg" type="text" name="full-name" id="full-name" required placeholder="Enter your full name..." /></div>
-                                <div class="col-12 col-md-9 mb-2 mb-md-0 mt-2"><input class="form-control form-control-lg" type="text" name="username" id="username" required placeholder="Choose your username..." /></div>
-                                <div class="col-12 col-md-9 mb-2 mb-md-0 mt-2"><input class="form-control form-control-lg" type="password" name="password" id="password" required placeholder="Enter your password..." /></div>
-                                <div class="col-12 col-md-9 mb-2 mb-md-0 mt-2"><input class="form-control form-control-lg" type="password" name="password" id="password" required placeholder="Confirm your password..." /></div>
+                                <div class="col-12 col-md-9 mb-2 mb-md-0"><input class="form-control form-control-lg" type="text" name="full-name" id="full-name" pattern="^[a-zA-Z0-9]{5-15}$" required placeholder="Enter your first name..." /></div>
+                                <div class="col-12 col-md-9 mb-2 mb-md-0 mt-2"><input class="form-control form-control-lg" type="text" name="full-name" id="full-name" pattern="^[a-zA-Z0-9]{5-15}$" required placeholder="Enter your last name..." /></div>
+                                <div class="col-12 col-md-9 mb-2 mb-md-0 mt-2"><input class="form-control form-control-lg" type="text" name="username" id="username" pattern="^[a-zA-Z0-9]{5-15}$" required placeholder="Choose your username..." /></div>
+                                <div class="col-12 col-md-9 mb-2 mb-md-0 mt-2"><input class="form-control form-control-lg" type="password" name="password" id="password" pattern="^[a-zA-Z0-9]{5-15}$" required placeholder="Enter your password..." /></div>
+                                <div class="col-12 col-md-9 mb-2 mb-md-0 mt-2"><input class="form-control form-control-lg" type="password" name="password" id="password" pattern="^[a-zA-Z0-9]{5-15}$" required placeholder="Confirm your password..." /></div>
                                 <div class="col-12 col-md-9 mb-2 mb-md-0 mt-2"><input class="form-control form-control-lg" type="date" name="dob" id="dob" required placeholder="Date of Birth..." /></div>
                                 <div class="col-12 col-md-3 mt-2"><button class="btn btn-block btn-lg btn-primary" type="submit">Register!</button></div>
                             </div>
                         </form>
                     <div class="mt-2 sub-sign-in-text">
-                        <p>Not a member? Register <a href="#">here</a></p>
+                        <p>Already a member? Login <a href="#">here</a></p>
                     </div>
                     </div>
                 </div>

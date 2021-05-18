@@ -1,5 +1,6 @@
 import os
-from flask import Flask, render_template
+from flask import Flask, render_template, session, flash, request
+from werkzeug.security import generate_password_hash, check_password_hash
 if os.path.exists("env.py"):
     import env
 
@@ -12,7 +13,21 @@ def index():
     return render_template("index.html")
 
 
-@app.route("/register")
+@app.route("/", methods=["GET", "POST"])
+# def signin():
+#   build connection to sql database
+#   store the username and password as variables here
+#   
+#   if request.method == "POST":
+#       existing_user = variable stored above
+#   if existing_user:
+#       if check_password_hash(
+#       existing_user["password"]), request.form.get("password")):
+#           session["user"] = request.form.get("username").lower
+    
+
+
+@app.route("/register", methods=["GET", "POST"])
 def register():
     return render_template("register.html")
 
