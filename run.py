@@ -37,6 +37,11 @@ def dashboard():
     return render_template("dashboard.html")
 
 
+@app.route("/log", methods=["GET", "POST"])
+def log1():
+    return render_template("log1.html")
+
+
 if __name__ == "__main__":
     app.run(
         host=os.environ.get("IP"),
