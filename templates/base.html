@@ -21,10 +21,21 @@
         <!-- Navigation-->
         <nav class="navbar navbar-light bg-light static-top">
             <div class="container">
-                <a class="navbar-brand" href="#!">Start Here!</a>
+                <a class="navbar-brand" href="{{ url_for('index') }}">Start Here!</a>
                 <a class="btn btn-primary" href="{{ url_for('register') }}">Register</a>
             </div>
         </nav>
+
+        <!-- Flash Messages -->
+        <section>
+            {% with messages = get_flashed_messages() %}
+                {% if messages %}
+                    <div class="row flashes bg-info">
+                        <h4 class="text-center text-light">{{ message }}</h4>
+                    </div>
+                {% endif %}
+            {% endwith %}
+        </section>
 
         {% block content %}
         {% endblock %}

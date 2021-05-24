@@ -10116,3 +10116,7 @@ footer.footer {
 .home-image-3 {
     background: url("../assets/img/home-image-2.jpeg") no-repeat center center;
 }
+
+.flashes {
+    line-height: 2;
+}
