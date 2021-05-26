@@ -47,13 +47,19 @@ def register():
         with connection.cursor() as cursor:
             cursor.execute("Select * from user where Username = %s or Email = %s", checkRow,)
             result = cursor.fetchall()
+            cursor.close()
             if result:
                 print('user already exists')
                 return redirect(url_for('register'))
             else:
-                print('adding this user to the db')
-                cursor.execute("Insert into user (FirstName, LastName, Email, Username, Password) Values (%s, %s, %s, %s, %s)", insertRow)
-                return render_template("register.html")
+                print('adding user to db')
+                connection = pymysql.connect(
+                    host='localhost', user='root', passwd='', db='gymdb')
+                with connection.cursor() as cursor:
+                    cursor.execute("Insert into user (FirstName, LastName, Email, Username, Password) Values (%s, %s, %s, %s, %s)", insertRow)
+                    connection.commit()
+                    cursor.close()
+                    return render_template("dashboard.html")
 
     return render_template("register.html")
 
