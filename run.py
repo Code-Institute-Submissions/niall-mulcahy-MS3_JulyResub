@@ -2,6 +2,7 @@ import os
 from flask import Flask, render_template, session, flash, request, url_for, redirect
 from werkzeug.security import generate_password_hash, check_password_hash
 import pymysql
+import pymysql.cursors
 if os.path.exists("env.py"):
     import env
 
@@ -22,9 +23,26 @@ def index():
             cursor.execute(
                 "select * from user where Username = %s", inputUsername)
             result = cursor.fetchall()
+            cursor.close()
             if result:
-                flash("username is found")
-        flash("hello this is flashing")
+                with connection.cursor() as cursor:
+                    cursor.execute(
+                        "select Password from user where Username = %s",
+                        inputUsername
+                    )
+
+                    returnPassword = cursor.fetchone()
+                    print(returnPassword)
+                    cursor.close()
+                    if check_password_hash(returnPassword, request.form.get("Password1")):
+                        flash("login successful")
+                        return render_template("dashboard.html")
+                    else:
+                        flash("Password not correct")
+                        print(returnPassword, inputPassword)
+                flash("username is found/ password check not successful")
+            else:
+                flash("Username or password does not exist")
     return render_template("index.html")
 
 
