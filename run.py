@@ -7,29 +7,25 @@ if os.path.exists("env.py"):
 
 
 app = Flask(__name__)
-
-
 app.secret_key = 'secret_key'
 
 
 @app.route("/")
 @app.route("/index", methods=['GET', 'POST'])
 def index():
+    if request.method == "POST":
+        inputUsername = request.form['Username'].lower()
+        inputPassword = request.form['Password1']
+        connection = pymysql.connect(
+            host='localhost', user='root', passwd='', db='gymdb')
+        with connection.cursor() as cursor:
+            cursor.execute(
+                "select * from user where Username = %s", inputUsername)
+            result = cursor.fetchall()
+            if result:
+                flash("username is found")
+        flash("hello this is flashing")
     return render_template("index.html")
-
-
-#@app.route("/", methods=["GET", "POST"])
-# def signin():
-#   build connection to sql database
-#   store the username and password as variables here
-#   
-#   if request.method == "POST":
-#       existing_user = variable stored above
-#   if existing_user:
-#       if check_password_hash(
-#       existing_user["password"]), request.form.get("password")):
-#           session["user"] = request.form.get("username").lower
-    
 
 
 @app.route("/register", methods=["GET", "POST"])
@@ -49,8 +45,7 @@ def register():
             result = cursor.fetchall()
             cursor.close()
             if result:
-                print('user already exists')
-                return redirect(url_for('register'))
+                flash("Username or Email already exists!")
             else:
                 print('adding user to db')
                 connection = pymysql.connect(
@@ -59,7 +54,8 @@ def register():
                     cursor.execute("Insert into user (FirstName, LastName, Email, Username, Password) Values (%s, %s, %s, %s, %s)", insertRow)
                     connection.commit()
                     cursor.close()
-                    return render_template("dashboard.html")
+                    session["user"] = request.form.get("Username").lower()
+                    flash("Registration was successful! Welcome")
 
     return render_template("register.html")
 
@@ -81,14 +77,5 @@ if __name__ == "__main__":
         debug=True)
 
 
-connection = pymysql.connect(host='localhost', user='root', passwd='', db='gymdb')
 
 
-connection = pymysql.connect(
-        host='localhost', user='root', passwd='', db='gymdb')
-with connection.cursor() as cursor:
-    cursor.execute('Show tables')
-    connection.commit()
-    result = cursor.fetchall()
-    connection.close()
-    print(result)

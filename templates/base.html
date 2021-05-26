@@ -28,9 +28,17 @@
 
         <!-- Flash Messages -->
         <section class="flash-messages">
-            {% for mesg in get_flashed_messages() %}
-            <h1>{{ mesg }}</h1>
-            {% endfor %}
+            {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                {% for message in messages %}
+                <div class="container">
+                    <div class="row flash-messages justify-content-center">
+                        <h1>{{ message }}</h1>
+                    </div>
+                </div>
+                {% endfor %}
+            {% endif %}
+            {% endwith %}
         </section>
 
         {% block content %}
