@@ -1,11 +1,15 @@
 import os
-from flask import Flask, render_template, session, flash, request, url_for
+from flask import Flask, render_template, session, flash, request, url_for, redirect
 from werkzeug.security import generate_password_hash, check_password_hash
+import pymysql
 if os.path.exists("env.py"):
     import env
 
 
 app = Flask(__name__)
+
+
+app.secret_key = 'secret_key'
 
 
 @app.route("/")
@@ -30,6 +34,27 @@ def index():
 
 @app.route("/register", methods=["GET", "POST"])
 def register():
+    if request.method == 'POST':
+        fName = request.form['FirstName'].title()
+        lName = request.form['LastName'].title()
+        username = request.form['Username'].lower()
+        email = request.form['Email'].lower()
+        password = generate_password_hash(request.form['Password1'])
+        checkRow = (username, email)
+        insertRow = (fName, lName, email, username, password)
+        connection = pymysql.connect(
+            host='localhost', user='root', passwd='', db='gymdb')
+        with connection.cursor() as cursor:
+            cursor.execute("Select * from user where Username = %s or Email = %s", checkRow,)
+            result = cursor.fetchall()
+            if result:
+                print('user already exists')
+                return redirect(url_for('register'))
+            else:
+                print('adding this user to the db')
+                cursor.execute("Insert into user (FirstName, LastName, Email, Username, Password) Values (%s, %s, %s, %s, %s)", insertRow)
+                return render_template("register.html")
+
     return render_template("register.html")
 
 
@@ -48,3 +73,16 @@ if __name__ == "__main__":
         host=os.environ.get("IP"),
         port=int(os.environ.get("PORT")),
         debug=True)
+
+
+connection = pymysql.connect(host='localhost', user='root', passwd='', db='gymdb')
+
+
+connection = pymysql.connect(
+        host='localhost', user='root', passwd='', db='gymdb')
+with connection.cursor() as cursor:
+    cursor.execute('Show tables')
+    connection.commit()
+    result = cursor.fetchall()
+    connection.close()
+    print(result)
