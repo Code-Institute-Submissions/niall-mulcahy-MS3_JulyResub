@@ -11,10 +11,7 @@
             <label for="exercisetype">Exercise Type:</label>
             <select id="exercisetype">
                 {% for x in exercisetype %}
-                    {% for y in x %}
-                        <option value="{{ y }}">{{ y }}</option>
-                        {% endif %}
-                    {% endfor %}
+                    <option value="{{ x[0] }}">{{ x[1] }}</option>
                 {% endfor %}
             </select>
         </div>
@@ -22,10 +19,7 @@
             <label for="exercisetype">Exercise Type:</label>
             <select id="exercisetype">
                 {% for x in exercisetype %}
-                    {% for y in x %}
-                        <option value="{{ y }}">{{ y }}</option>
-                        {% endif %}
-                    {% endfor %}
+                    <option value="{{ x[0] }}">{{ x[1] }}</option>
                 {% endfor %}
             </select>
         </div>        
