@@ -15,14 +15,106 @@
                 {% endfor %}
             </select>
         </div>
-        <div class="form-group squat-section">
-            <label for="exercisetype">Exercise Type:</label>
-            <select id="exercisetype">
-                {% for x in exercisetype %}
-                    <option value="{{ x[0] }}">{{ x[1] }}</option>
-                {% endfor %}
-            </select>
-        </div>        
+        <div id="squat-section">
+            <div class="form-group">
+                <label for="stancewidth">Stance Width:</label>
+                <select id="stancewidth">
+                    {% for x in stancewidth %}
+                        <option value="{{ x[0] }}">{{ x[1] }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="barposition">Bar Position:</label>
+                <select id="barposition">
+                    {% for x in barposition %}
+                        <option value="{{ x[0] }}">{{ x[1] }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="bartype">Bar Type:</label>
+                <select id="bartype">
+                    {% for x in bartype %}
+                        <option value="{{ x[0] }}">{{ x[1] }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="belt">Belt</label>
+                <input type="checkbox" id="belt" name="belt" value="belt">
+            </div>
+            <div class="form-group">
+                <label for="tempo">tempo</label>
+                <select id="tempo">
+                    {% for x in tempo %}
+                        <option value="{{ x[0] }}">{{ x[1] }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="pause">Pause:</label>
+                <input type="number">
+            </div>
+            <div class="form-group">
+                <label for="pin">Pin:</label>
+                <select id="pin">
+                    {% for x in pin %}
+                        <option value="{{ x[0] }}">{{ x[1] }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+        </div>
+        <div id="bench-section">
+            <div class="form-group">
+                <label for="gripwidth">Grip Width:</label>
+                <select id="gripwidth">
+                    {% for x in gripwidth %}
+                        <option value="{{ x[0] }}">{{ x[1] }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="barposition">Bar Position:</label>
+                <select id="barposition">
+                    {% for x in barposition %}
+                        <option value="{{ x[0] }}">{{ x[1] }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="bartype">Bar Type:</label>
+                <select id="bartype">
+                    {% for x in bartype %}
+                        <option value="{{ x[0] }}">{{ x[1] }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="belt">Belt</label>
+                <input type="checkbox" id="belt" name="belt" value="belt">
+            </div>
+            <div class="form-group">
+                <label for="tempo">tempo</label>
+                <select id="tempo">
+                    {% for x in tempo %}
+                        <option value="{{ x[0] }}">{{ x[1] }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="pause">Pause:</label>
+                <input type="number">
+            </div>
+            <div class="form-group">
+                <label for="pin">Pin:</label>
+                <select id="pin">
+                    {% for x in pin %}
+                        <option value="{{ x[0] }}">{{ x[1] }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+        </div>       
     </form>
 
 </div>

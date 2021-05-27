@@ -94,7 +94,40 @@ def log2():
         exercisetype = cursor.fetchall()
         print(exercisetype)
         cursor.close()
-    return render_template("log2.html", exercisetype=exercisetype)
+    with connection.cursor() as cursor:
+        sql = ('select * from stancewidth')
+        cursor.execute(sql)
+        stancewidth = cursor.fetchall()
+        cursor.close()
+    with connection.cursor() as cursor:
+        sql = ('select * from barposition')
+        cursor.execute(sql)
+        barposition = cursor.fetchall()
+        cursor.close()
+    with connection.cursor() as cursor:
+        sql = ('select * from bartype')
+        cursor.execute(sql)
+        bartype = cursor.fetchall()
+        cursor.close()
+    with connection.cursor() as cursor:
+        sql = ('select * from tempo')
+        cursor.execute(sql)
+        tempo = cursor.fetchall()
+        cursor.close()
+    with connection.cursor() as cursor:
+        sql = ('select * from pin')
+        cursor.execute(sql)
+        pin = cursor.fetchall()
+        cursor.close()
+    with connection.cursor() as cursor:
+        sql = ('select * from gripwidth')
+        cursor.execute(sql)
+        gripwidth = cursor.fetchall()
+        cursor.close()
+    return render_template(
+        "log2.html", exercisetype=exercisetype, stancewidth=stancewidth,
+        barposition=barposition, bartype=bartype,
+        tempo=tempo, pin=pin, gripwidth=gripwidth)
 
 
 if __name__ == "__main__":

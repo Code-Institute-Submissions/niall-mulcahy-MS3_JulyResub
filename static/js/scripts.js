@@ -21,17 +21,27 @@ $("#submit-registration").click(function () {
 });
 
 let exerciseType = document.getElementById("exercisetype");
+let squatform = document.getElementById("squat-section");
+let benchform = document.getElementById("bench-section");
+let deadliftform = document.getElementById("deadlift-section");
 
 exerciseType.onchange = function() {
     exercise = exerciseType.value;
     console.log(exercise)
-    if (exercise == "Squat"){
-        console.log("squat input form")
-    } else if (exercise == "Bench Press"){
-        console.log("Bench input form")
-    } else if (exercise == "Deadlift"){
-        console.log("deadlift input form")
+    if (exercise == 1){
+        console.log(exercise)
+        squatform.style.display = "block";
+        benchform.style.display = "none";
+    } else if (exercise == 2){
+        console.log(exercise)
+        squatform.style.display = "none";
+        benchform.style.display = "block";
+    } else if (exercise == 3){
+        console.log(exercise)
+        squatform.style.display = "none";
+        benchform.style.display = "none";
     } else {
         console.log("other exercise")
+        squatform.style.display = "none";
     }
 }
