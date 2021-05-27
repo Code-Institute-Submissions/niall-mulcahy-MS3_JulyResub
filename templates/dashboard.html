@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% block content %}
 <div class="jumbotron">
-    <h2 class="display-4 text-center">Welcome user</h2>
+    <h2 class="display-4 text-center">Welcome, {{ session.user }}</h2>
     <h5 class="text-center">To log a session, click <a href="{{ url_for('log1') }}">here</a></h5>
 </div>
 

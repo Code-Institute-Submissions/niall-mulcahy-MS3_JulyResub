@@ -14,7 +14,6 @@ $("#submit-registration").click(function () {
     var password1 = $("#Password1").val();
     var password2 = $("#Password2").val();
     if (password1 != password2){
-        alert("passwords not matching " + password1 + ' ' + password2 )
         passwordAlert.removeAttribute("hidden"); 
         return false;
     }
