@@ -17,7 +17,7 @@
         <small id="timeHelp" class="form-text text-muted">Note that this is a 24 hour clock.</small>
         <div class="form-group">
             <label for="SessionTime">Session Time in Minutes</label>
-            <input type="time" name="SessionTime" class="form-control">
+            <input type="number" name="SessionTime" class="form-control">
         </div>
         <div class="form-group">
             <label for="session-rpe">Session RPE</label>
@@ -32,5 +32,7 @@
         </div>
         <div class="row justify-content-center"><button type="submit" class="btn btn-primary mt-2 mx-auto">Next</button></div>
     </form>
+
+    <a href="{{ url_for('log2') }}">Link to log2</a>
 </div>
 {% endblock %}

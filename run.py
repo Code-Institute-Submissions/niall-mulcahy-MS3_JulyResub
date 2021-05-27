@@ -31,6 +31,7 @@ def index():
                         inputUsername
                     )
                     returnPassword = cursor.fetchall()
+                    cursor.close()
                     if check_password_hash(returnPassword[0][0], inputPassword):
                         session["user"] = request.form.get("Username").lower()
                         return render_template("dashboard.html")
@@ -78,9 +79,21 @@ def dashboard():
     return render_template("dashboard.html")
 
 
-@app.route("/log", methods=["GET", "POST"])
+@app.route("/log1", methods=["GET", "POST"])
 def log1():
     return render_template("log1.html")
+
+
+@app.route("/log2", methods=["GET", "POST"])
+def log2():
+    connection = pymysql.connect(
+            host='localhost', user='root', passwd='', db='gymdb')
+    with connection.cursor() as cursor:
+        sql = ('select ExerciseTypeName from exercisetype where ExerciseTypeId < 4')
+        cursor.execute(sql)
+        exercisetype = cursor.fetchall()
+        cursor.close()
+    return render_template("log2.html", exercisetype=exercisetype)
 
 
 if __name__ == "__main__":

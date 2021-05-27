@@ -19,3 +19,19 @@ $("#submit-registration").click(function () {
     }
     return true;
 });
+
+let exerciseType = document.getElementById("exercisetype");
+
+exerciseType.onchange = function() {
+    exercise = exerciseType.value;
+    console.log(exercise)
+    if (exercise == "Squat"){
+        console.log("squat input form")
+    } else if (exercise == "Bench Press"){
+        console.log("Bench input form")
+    } else if (exercise == "Deadlift"){
+        console.log("deadlift input form")
+    } else {
+        console.log("other exercise")
+    }
+}
