@@ -32,11 +32,10 @@ SET time_zone = "+00:00";
 USE `gymdb`;
 
 
---
 -- Table structure for table `barposition`
 --
 
-CREATE TABLE `barposition` (
+CREATE TABLE `barposition`
   `BarPositionId` tinyint(3) UNSIGNED NOT NULL,
   `BarPositionName` varchar(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -123,32 +122,33 @@ CREATE TABLE `exercise` (
 
 CREATE TABLE `exercisetype` (
   `ExerciseTypeId` int(10) UNSIGNED NOT NULL,
-  `ExerciseTypeName` varchar(45) NOT NULL
+  `ExerciseTypeName` varchar(45) NOT NULL,
+  `DisplayOrder` tinyint(4) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `exercisetype`
 --
 
-INSERT INTO `exercisetype` (`ExerciseTypeId`, `ExerciseTypeName`) VALUES
-(1, 'Squat'),
-(2, 'Bench Press'),
-(3, 'Deadlift'),
-(4, 'Chin Up'),
-(5, 'Bent Over Row'),
-(6, 'Dumbbell Press'),
-(7, 'Incline Press'),
-(8, 'Romanian Deadlift'),
-(9, 'Stiff Legged Deadlift'),
-(10, 'Shoulder Press'),
-(11, 'Bicep Curls'),
-(12, 'Lateral Raises'),
-(13, 'Rear Delt Flies'),
-(14, 'Chest Flies'),
-(15, 'Tricep Extensions'),
-(16, 'Bulgarian Split Squats'),
-(17, 'Hamstring Curls'),
-(18, 'Leg Extensions');
+INSERT INTO `exercisetype` (`ExerciseTypeId`, `ExerciseTypeName`, `DisplayOrder`) VALUES
+(1, 'Squat', 1),
+(2, 'Bench Press', 1),
+(3, 'Deadlift', 1),
+(4, 'Chin Up', 4),
+(5, 'Bent Over Row', 4),
+(6, 'Dumbbell Press', 2),
+(7, 'Incline Press', 2),
+(8, 'Romanian Deadlift', 5),
+(9, 'Stiff Legged Deadlift', 5),
+(10, 'Shoulder Press', 2),
+(11, 'Bicep Curls', 4),
+(12, 'Lateral Raises', 2),
+(13, 'Rear Delt Flies', 4),
+(14, 'Chest Flies', 2),
+(15, 'Tricep Extensions', 2),
+(16, 'Bulgarian Split Squats', 3),
+(17, 'Hamstring Curls', 5),
+(18, 'Leg Extensions', 3);
 
 -- --------------------------------------------------------
 
@@ -212,6 +212,20 @@ CREATE TABLE `session` (
 
 INSERT INTO `session` (`SessionId`, `User`, `SessionDate`, `SessionTime`, `SessionName`, `SessionRPE`) VALUES
 (1, 1, '0000-00-00', 120, 'Test', 5);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `sets`
+--
+
+CREATE TABLE `sets` (
+  `SetId` int(10) UNSIGNED NOT NULL,
+  `ExerciseId` int(10) UNSIGNED NOT NULL,
+  `Reps` int(10) UNSIGNED NOT NULL,
+  `Weight` decimal(4,1) UNSIGNED NOT NULL,
+  `RPE` decimal(4,1) UNSIGNED NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -339,6 +353,13 @@ ALTER TABLE `session`
   ADD KEY `fk_user` (`User`);
 
 --
+-- Indexes for table `sets`
+--
+ALTER TABLE `sets`
+  ADD PRIMARY KEY (`SetId`),
+  ADD KEY `fk_exercise` (`ExerciseId`);
+
+--
 -- Indexes for table `stancewidth`
 --
 ALTER TABLE `stancewidth`
@@ -409,6 +430,12 @@ ALTER TABLE `session`
   MODIFY `SessionId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
+-- AUTO_INCREMENT for table `sets`
+--
+ALTER TABLE `sets`
+  MODIFY `SetId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT for table `stancewidth`
 --
 ALTER TABLE `stancewidth`
@@ -448,6 +475,12 @@ ALTER TABLE `exercise`
 --
 ALTER TABLE `session`
   ADD CONSTRAINT `fk_user` FOREIGN KEY (`User`) REFERENCES `user` (`UserId`);
+
+--
+-- Constraints for table `sets`
+--
+ALTER TABLE `sets`
+  ADD CONSTRAINT `fk_exercise` FOREIGN KEY (`ExerciseId`) REFERENCES `exercise` (`ExerciseId`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

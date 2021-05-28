@@ -53,7 +53,7 @@ let setnumber = document.getElementById("setnumber");
 setnumber.onchange = function () {
     sets = setnumber.value;
     console.log(sets)
-    $("#reps-form").empty();
+    $("#reps-counter").empty();
 
     if (sets > 0){
         createForm(sets);

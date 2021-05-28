@@ -98,7 +98,7 @@ def log2():
     connection = pymysql.connect(
             host='localhost', user='root', passwd='', db='gymdb')
     with connection.cursor() as cursor:
-        sql = ('select * from exercisetype where ExerciseTypeId < 4')
+        sql = ('select * from exercisetype order by DisplayOrder, ExerciseTypeName')
         cursor.execute(sql)
         exercisetype = cursor.fetchall()
         print(exercisetype)
