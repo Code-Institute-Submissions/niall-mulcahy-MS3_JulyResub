@@ -77,14 +77,15 @@ def register():
 
 @app.route("/dashboard")
 def dashboard():
-    print(session["user"])
-    connection = pymysql.connect(
-        host='localhost', user='root', passwd='', db='gymdb')
-    with connection.cursor() as cursor:
-        cursor.execute("SELECT * from user where Username = %s", session["user"])
-        userdata = cursor.fetchall()
-        cursor.close()
-    return render_template("dashboard.html", userdata=userdata)
+    if session["user"]:
+        connection = pymysql.connect(
+            host='localhost', user='root', passwd='', db='gymdb')
+        with connection.cursor() as cursor:
+            cursor.execute(
+                "SELECT * from user where Username = %s", session["user"])
+            userdata = cursor.fetchall()
+            cursor.close()
+        return render_template("dashboard.html", userdata=userdata)
 
 
 @app.route("/log1", methods=["GET", "POST"])
@@ -149,7 +150,7 @@ def log3():
     return render_template("log3.html")
 
 
-@app.route("/logout")
+@app.route("/logout", methods=["GET"])
 def logout():
     flash("You have been logged out")
     session.pop("user")
