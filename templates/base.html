@@ -26,7 +26,12 @@
     <nav class="navbar navbar-light bg-light static-top">
         <div class="container">
             <a class="navbar-brand" href="{{ url_for('index') }}">Start Here!</a>
-            <a class="btn btn-primary" href="{{ url_for('register') }}">Register</a>
+            {% if session.user %}
+                <a class="btn btn-primary" href="{{ url_for('log1') }}">Log Session</a>
+                <a class="btn btn-primary" href="{{ url_for('logout') }}">Sign Out</a>
+            {% else %}
+                <a class="btn btn-primary" href="{{ url_for('register') }}">Register</a>
+            {% endif %}
         </div>
     </nav>
 

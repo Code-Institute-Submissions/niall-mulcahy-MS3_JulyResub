@@ -34,7 +34,7 @@ def index():
                     cursor.close()
                     if check_password_hash(returnPassword[0][0], inputPassword):
                         session["user"] = request.form.get("Username").lower()
-                        return render_template("dashboard.html")
+                        return redirect(url_for("dashboard"))
                     else:
                         flash("Username or Password incorrect")
             else:
@@ -69,7 +69,8 @@ def register():
                     connection.commit()
                     cursor.close()
                     session["user"] = request.form.get("Username").lower()
-                    flash("Registration was successful! Welcome")
+                    flash("Registration was successful!")
+                    return redirect(url_for("index"))
 
     return render_template("register.html")
 
@@ -139,6 +140,13 @@ def log2():
 @app.route("/log3", methods=["GET", "POST"])
 def log3():
     return render_template("log3.html")
+
+
+@app.route("/logout")
+def logout():
+    flash("You have been logged out")
+    session.pop("user")
+    return redirect(url_for("index"))
 
 
 if __name__ == "__main__":
