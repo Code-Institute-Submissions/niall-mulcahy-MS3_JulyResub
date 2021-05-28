@@ -77,7 +77,14 @@ def register():
 
 @app.route("/dashboard")
 def dashboard():
-    return render_template("dashboard.html")
+    print(session["user"])
+    connection = pymysql.connect(
+        host='localhost', user='root', passwd='', db='gymdb')
+    with connection.cursor() as cursor:
+        cursor.execute("SELECT * from user where Username = %s", session["user"])
+        userdata = cursor.fetchall()
+        cursor.close()
+    return render_template("dashboard.html", userdata=userdata)
 
 
 @app.route("/log1", methods=["GET", "POST"])
