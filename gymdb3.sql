@@ -24,18 +24,15 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 
- DROP DATABASE IF EXISTS `gymdb`;
+DROP DATABASE IF EXISTS `gymdb`;
 
---
- CREATE DATABASE `gymdb`;
---
+
+CREATE DATABASE `gymdb`;
+
 USE `gymdb`;
 
 
--- Table structure for table `barposition`
---
-
-CREATE TABLE `barposition`
+CREATE TABLE `barposition` (
   `BarPositionId` tinyint(3) UNSIGNED NOT NULL,
   `BarPositionName` varchar(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;

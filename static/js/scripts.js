@@ -46,6 +46,8 @@ exerciseType.onchange = function() {
     } else {
         console.log("other exercise")
         squatform.style.display = "none";
+        benchform.style.display = "none";
+        deadliftform.style.display = "none";
     }
 }
 
