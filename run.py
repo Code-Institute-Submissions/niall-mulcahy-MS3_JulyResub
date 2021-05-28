@@ -124,10 +124,21 @@ def log2():
         cursor.execute(sql)
         gripwidth = cursor.fetchall()
         cursor.close()
+    with connection.cursor() as cursor:
+        sql = ('select * from deadliftstance')
+        cursor.execute(sql)
+        deadliftstance = cursor.fetchall()
+        cursor.close()
     return render_template(
         "log2.html", exercisetype=exercisetype, stancewidth=stancewidth,
         barposition=barposition, bartype=bartype,
-        tempo=tempo, pin=pin, gripwidth=gripwidth)
+        tempo=tempo, pin=pin, gripwidth=gripwidth,
+        deadliftstance=deadliftstance)
+
+
+@app.route("/log3", methods=["GET", "POST"])
+def log3():
+    return render_template("log3.html")
 
 
 if __name__ == "__main__":
