@@ -43,6 +43,13 @@ exerciseType.onchange = function() {
         squatform.style.display = "none";
         benchform.style.display = "none";
         deadliftform.style.display = "block"
+        let stancewidth = document.getElementById("stancewidth");
+        stancewidth.setAttribute('value', '0');
+        let gripwidth = document.getElementById("gripwidth");
+        gripwidth.setAttribute('value', '0');
+        let barposition = document.getElementById("barposition");
+        barposition.setAttribute('value', '0');
+        console.log(barposition, stancewidth, gripwidth)
     } else {
         console.log("other exercise")
         squatform.style.display = "none";
