@@ -3,6 +3,7 @@ from flask import Flask, render_template, session, flash, request, url_for, redi
 from werkzeug.security import generate_password_hash, check_password_hash
 import pymysql
 import pymysql.cursors
+import datetime
 if os.path.exists("env.py"):
     import env
 
@@ -90,6 +91,24 @@ def dashboard():
 
 @app.route("/log1", methods=["GET", "POST"])
 def log1():
+    if request.method == 'POST':
+        connection = pymysql.connect(host='localhost', user='root', passwd='', db='gymdb')
+        with connection.cursor() as cursor:
+            cursor.execute("SELECT UserId from user where Username = %s", session["user"])
+            userid = cursor.fetchall()[0][0]
+            print(userid)
+            cursor.close()
+        sessionname = request.form["session-name"].title()
+        sessiondate = request.form['session-date']
+        sessiontime = request.form['session-time']
+        sessionrpe = request.form['session-rpe']
+        sessioninput = (userid, sessiondate, sessiontime, sessionname, sessionrpe)
+        with connection.cursor() as cursor:
+            cursor.execute("INSERT INTO session (User, SessionDate, SessionTime, SessionName, SessionRPE) Values (%s, %s, %s, %s, %s)", sessioninput)
+            connection.commit()
+            cursor.close()
+            flash("Session Created")
+            return redirect(url_for("log2"))
     return render_template("log1.html")
 
 
@@ -138,6 +157,36 @@ def log2():
         cursor.execute(sql)
         deadliftstance = cursor.fetchall()
         cursor.close()
+
+    if request.method == 'POST':
+        with connection.cursor() as cursor:
+            cursor.execute("SELECT UserId from user where Username = %s", session["user"])
+            userid = cursor.fetchall()[0][0]
+            cursor.close()
+        with connection.cursor() as cursor:
+            cursor.execute("SELECT MAX(SessionId) as max_SessionId from session where User = %s", userid)
+            sessionid = cursor.fetchall()[0][0]
+            cursor.close()
+        exercisetypeid = request.form['exercisetype']
+        stancewidthid = request.form['stancewidth']
+        gripwidthid = request.form['gripwidth']
+        barpositionid = request.form['barposition']
+        bartypeid = request.form['bartype']
+        beltin = request.form['belt']
+        tempoid = request.form['tempo']
+        pausein = request.form['pause']
+        pinid = request.form['pin']
+        deadliftstanceid = request.form['deadliftstance']
+        snatchgripin = request.form['snatchgrip']
+        exerciseinput = (sessionid, exercisetypeid, stancewidthid, gripwidthid, barpositionid, bartypeid, beltin, tempoid, pausein, pinid, deadliftstanceid, snatchgripin)
+
+        with connection.cursor() as cursor:
+            cursor.execute(
+                "INSERT INTO exercise (SessionId, ExerciseTypeId, StanceWidthId, GripWidthId, BarPositionId, BarTypeId, Belt, TempoId, Pause, PinId, DeadliftStanceId, SnatchGrip) values (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)", exerciseinput)
+            connection.commit()
+            cursor.close()
+        flash("exercise has been logged")
+
     return render_template(
         "log2.html", exercisetype=exercisetype, stancewidth=stancewidth,
         barposition=barposition, bartype=bartype,
@@ -162,3 +211,5 @@ if __name__ == "__main__":
         host=os.environ.get("IP"),
         port=int(os.environ.get("PORT")),
         debug=True)
+
+

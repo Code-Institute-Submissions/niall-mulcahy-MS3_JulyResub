@@ -4,7 +4,7 @@
     <div class="row justify-content-center">
         <h2 class="display-4 mt-2">Session Overview</h2>
     </div>
-    <form class="card-body">
+    <form method="post" action="{{ url_for('log1') }}" class="card-body">
         <div class="form-group">
             <label for="session-name">Session Name</label>
             <input type="text" class="form-control" name="session-name" aria-describedby="session-name">
@@ -16,8 +16,8 @@
         </div>
         <small id="timeHelp" class="form-text text-muted">Note that this is a 24 hour clock.</small>
         <div class="form-group">
-            <label for="SessionTime">Session Time in Minutes</label>
-            <input type="number" name="SessionTime" class="form-control">
+            <label for="session-time">Session Time in Minutes</label>
+            <input type="number" name="session-time" class="form-control">
         </div>
         <div class="form-group">
             <label for="session-rpe">Session RPE</label>
@@ -26,10 +26,6 @@
         <small id="timeHelp" class="form-text text-muted">Rate how difficult the session was overall on this scale.
             Allow for 15-20 minutes to pass after the session before filling out this field.
         </small>
-        <div class="form-group">
-            <label for="session-goals">Description / Goals</label>
-            <textarea class="form-control" name="session-goals" id="exampleFormControlTextarea1" rows="3"></textarea>
-        </div>
         <div class="row justify-content-center"><button type="submit" class="btn btn-primary mt-2 mx-auto">Next</button></div>
     </form>
 

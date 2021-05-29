@@ -25,7 +25,9 @@
     <!-- Navigation-->
     <nav class="navbar navbar-light bg-light static-top">
         <div class="container">
-            <a class="navbar-brand" href="{{ url_for('index') }}">Start Here!</a>
+            {% if session.user %}
+                <a class="navbar-brand" href="{{ url_for('dashboard') }}">Start Here!</a>
+            {% endif %}
             {% if session.user %}
                 <a class="btn btn-primary" href="{{ url_for('log1') }}">Log Session</a>
                 <a class="btn btn-primary" href="{{ url_for('logout') }}">Sign Out</a>
