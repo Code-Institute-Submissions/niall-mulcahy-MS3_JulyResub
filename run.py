@@ -167,17 +167,17 @@ def log2():
             cursor.execute("SELECT MAX(SessionId) as max_SessionId from session where User = %s", userid)
             sessionid = cursor.fetchall()[0][0]
             cursor.close()
-        exercisetypeid = request.form['exercisetype']
-        stancewidthid = request.form['stancewidth']
-        gripwidthid = request.form['gripwidth']
-        barpositionid = request.form['barposition']
-        bartypeid = request.form['bartype']
-        beltin = request.form['belt']
-        tempoid = request.form['tempo']
-        pausein = request.form['pause']
-        pinid = request.form['pin']
-        deadliftstanceid = request.form['deadliftstance']
-        snatchgripin = request.form['snatchgrip']
+        exercisetypeid = request.form.get('exercisetype')
+        stancewidthid = request.form.get('stancewidth')
+        gripwidthid = request.form.get('gripwidth')
+        barpositionid = request.form.get('barposition')
+        bartypeid = request.form.get('bartype')
+        beltin = request.form.get('belt')
+        tempoid = request.form.get('tempo')
+        pausein = request.form.get('pause')
+        pinid = request.form.get('pin')
+        deadliftstanceid = request.form.get('deadliftstance')
+        snatchgripin = request.form.get('snatchgrip')
         exerciseinput = (sessionid, exercisetypeid, stancewidthid, gripwidthid, barpositionid, bartypeid, beltin, tempoid, pausein, pinid, deadliftstanceid, snatchgripin)
 
         with connection.cursor() as cursor:
@@ -186,6 +186,30 @@ def log2():
             connection.commit()
             cursor.close()
         flash("exercise has been logged")
+
+        with connection.cursor() as cursor:
+            cursor.execute("SELECT MAX(ExerciseId) as max_ExerciseId from exercise where SessionId = %s", sessionid)
+            exerciseid = cursor.fetchall()[0][0]
+            cursor.close()
+        reps = request.form.get('reps')
+        weight = request.form.get('weight')
+        rpe = request.form.get('rpe')
+        setnumber = request.form.get('setnumber')
+
+        for x in setnumber:
+            reps = ()
+            reps = request.form.get('reps')
+            weight = ()
+            weight = request.form.get('weight')
+            rpe = ()
+            rpe = request.form.get('rpe')
+
+            setsinput = (exerciseid, reps, weight, rpe)
+            with connection.cursor() as cursor:
+                cursor.execute("INSERT INTO sets (ExerciseId, Reps, Weight, RPE) VALUES (%s, %s, %s, %s)", setsinput)
+                connection.commit()
+                cursor.close()
+            flash("Sets have been logged")
 
     return render_template(
         "log2.html", exercisetype=exercisetype, stancewidth=stancewidth,

@@ -18,7 +18,7 @@
         <div id="squat-section">
             <div class="form-group">
                 <label for="stancewidth">Stance Width:</label>
-                <select class="form-control" name="stancewidth" id="stancewidth">
+                <select class="form-control" name="stancewidth" id="stancewidth" disabled>
                     {% for x in stancewidth %}
                     <option value="{{ x[0] }}">{{ x[1] }}</option>
                     {% endfor %}
@@ -26,7 +26,7 @@
             </div>
             <div class="form-group">
                 <label for="barposition">Bar Position:</label>
-                <select class="form-control" name="barposition" id="barposition">
+                <select class="form-control" name="barposition" id="barposition" disabled>
                     {% for x in barposition %}
                     <option value="{{ x[0] }}">{{ x[1] }}</option>
                     {% endfor %}
@@ -116,7 +116,7 @@
         <div id="deadlift-section">
             <div class="form-group">
                 <label for="deadliftstance">Deadlift Stance:</label>
-                <select class="form-control" name="deadliftstance" id="deadliftstance">
+                <select class="form-control" name="deadliftstance" id="deadliftstance" disabled>
                     {% for x in deadliftstance %}
                     <option value="{{ x[0] }}">{{ x[1] }}</option>
                     {% endfor %}
@@ -165,18 +165,18 @@
                     </select>
                 </div>
             </div>
-        <div class="form-group">
-            <label for="setnumber">Number of sets:</label>
-            <input class="form-control" type="number" id="setnumber">
-        </div>
 
-        <div id="reps-counter" class="mx-auto mb-3"></div>
-        </div>
+            <div class="form-group">
+                <label for="setnumber">Number of sets:</label>
+                <input class="form-control" type="number" id="setnumber" name="setnumber">
+            </div>
 
-        <div class="mx-auto text-center">
-            <a href="" class="btn btn-primary">Next</a>
-            <input type="submit" class="btn btn-success" value="Finished">
-        </div>
-     </form>
+            <div id="reps-counter" class="mx-auto mb-3 justify-content-center"></div>
+
+            <div class="mx-auto text-center">
+                <input type="submit" class="btn btn-success" value="input sets">
+            </div>
+        
+        </form>
 
 {% endblock %}

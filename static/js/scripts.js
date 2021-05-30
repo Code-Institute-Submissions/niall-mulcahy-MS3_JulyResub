@@ -33,34 +33,64 @@ exerciseType.onchange = function() {
         squatform.style.display = "block";
         benchform.style.display = "none";
         deadliftform.style.display = "none";
+        let stancewidth = document.getElementById("stancewidth");
+        stancewidth.removeAttribute('disabled', '');
+        let gripwidth = document.getElementById("gripwidth");
+        gripwidth.setAttribute('disabled', '');
+        let barposition = document.getElementById("barposition");
+        barposition.removeAttribute('disabled', '');
+        let deadliftstance = document.getElementById("deadliftstance");
+        deadliftstance.setAttribute('disabled', '');
+        
     } else if (exercise == 2){
         console.log(exercise)
         squatform.style.display = "none";
         benchform.style.display = "block";
         deadliftform.style.display = "none";
+        let stancewidth = document.getElementById("stancewidth");
+        stancewidth.setAttribute('disabled', '');
+        let gripwidth = document.getElementById("gripwidth");
+        gripwidth.removeAttribute('disabled', '');
+        let barposition = document.getElementById("barposition");
+        barposition.setAttribute('disabled', '');
+        let deadliftstance = document.getElementById("deadliftstance");
+        deadliftstance.setAttribute('disabled', '');
+
     } else if (exercise == 3){
         console.log(exercise)
         squatform.style.display = "none";
         benchform.style.display = "none";
         deadliftform.style.display = "block"
         let stancewidth = document.getElementById("stancewidth");
-        stancewidth.setAttribute('value', '0');
+        stancewidth.setAttribute('disabled', '');
         let gripwidth = document.getElementById("gripwidth");
-        gripwidth.setAttribute('value', '0');
+        gripwidth.setAttribute('disabled', '');
         let barposition = document.getElementById("barposition");
-        barposition.setAttribute('value', '0');
+        barposition.setAttribute('disabled', '');
+        let deadliftstance = document.getElementById("deadliftstance");
+        deadliftstance.removeAttribute('disabled', '');
         console.log(barposition, stancewidth, gripwidth)
+
     } else {
         console.log("other exercise")
         squatform.style.display = "none";
         benchform.style.display = "none";
         deadliftform.style.display = "none";
+        let stancewidth = document.getElementById("stancewidth");
+        stancewidth.setAttribute('disabled', '');
+        let gripwidth = document.getElementById("gripwidth");
+        gripwidth.setAttribute('disabled', '');
+        let barposition = document.getElementById("barposition");
+        barposition.setAttribute('disabled', '');
+        let deadliftstance = document.getElementById("deadliftstance");
+        deadliftstance.setAttribute('disabled', '');
     }
 }
 
 let setnumber = document.getElementById("setnumber");
 setnumber.onchange = function () {
     sets = setnumber.value;
+    // enable submit button
     console.log(sets)
     $("#reps-counter").empty();
 
