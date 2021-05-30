@@ -120,7 +120,6 @@ def log2():
         sql = ('select * from exercisetype order by DisplayOrder, ExerciseTypeName')
         cursor.execute(sql)
         exercisetype = cursor.fetchall()
-        print(exercisetype)
         cursor.close()
     with connection.cursor() as cursor:
         sql = ('select * from stancewidth')
@@ -196,20 +195,24 @@ def log2():
         rpe = request.form.get('rpe')
         setnumber = request.form.get('setnumber')
 
-        for x in setnumber:
-            reps = ()
-            reps = request.form.get('reps')
-            weight = ()
-            weight = request.form.get('weight')
-            rpe = ()
-            rpe = request.form.get('rpe')
+        reps = request.form.getlist('reps')
+        weight = request.form.getlist('weight')
+        rpe = request.form.getlist('rpe')
+        setszip = zip(reps, weight, rpe)
+        listzip = list(setszip)
+        lists = [list(x) for x in listzip]
+        for x in lists:
+            x.insert(0, exerciseid)
+        print(lists)
+        tuples = tuple([tuple(x) for x in lists])
+        print(tuples)
 
-            setsinput = (exerciseid, reps, weight, rpe)
+        for x in tuples:
             with connection.cursor() as cursor:
-                cursor.execute("INSERT INTO sets (ExerciseId, Reps, Weight, RPE) VALUES (%s, %s, %s, %s)", setsinput)
+                cursor.execute("INSERT INTO sets (ExerciseId, Reps, Weight, RPE) VALUES (%s, %s, %s, %s)", x)
                 connection.commit()
                 cursor.close()
-            flash("Sets have been logged")
+    flash("Sets have been logged")
 
     return render_template(
         "log2.html", exercisetype=exercisetype, stancewidth=stancewidth,
