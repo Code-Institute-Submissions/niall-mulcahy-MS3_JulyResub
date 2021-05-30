@@ -10124,3 +10124,17 @@ footer.footer {
 #deadlift-section {
     display: none;
 }
+
+#set-input-button {
+    display: none;
+}
+
+#finished-button {
+    display: none;
+    width: 100px;
+}
+
+#finished-button a {
+    text-decoration: none;
+    color: white;
+}

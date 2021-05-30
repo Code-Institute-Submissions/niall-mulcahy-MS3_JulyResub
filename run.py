@@ -193,7 +193,6 @@ def log2():
         reps = request.form.get('reps')
         weight = request.form.get('weight')
         rpe = request.form.get('rpe')
-        setnumber = request.form.get('setnumber')
 
         reps = request.form.getlist('reps')
         weight = request.form.getlist('weight')

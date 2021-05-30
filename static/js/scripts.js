@@ -25,11 +25,32 @@ let squatform = document.getElementById("squat-section");
 let benchform = document.getElementById("bench-section");
 let deadliftform = document.getElementById("deadlift-section");
 
+
+let stancewidth = document.getElementById("stancewidth");
+let gripwidth = document.getElementById("gripwidth");
+let barposition = document.getElementById("barposition");
+let bartype = document.getElementById("bartype");
+let belt = document.getElementById("belt");
+let tempo = document.getElementById("tempo");
+let pause = document.getElementById("pause");
+let pin = document.getElementById("pin");
+let deadliftstance = document.getElementById("deadliftstance");
+
+genParameters = [bartype, belt, tempo, pause, pin]
+
+function disable(exerciseparam){
+    exerciseparam.setAttribute('disabled', '');
+}
+
+function enable(exerciseparam){
+    exerciseparam.removeAttribute('disabled', '');
+}
+
 exerciseType.onchange = function() {
     exercise = exerciseType.value;
     console.log(exercise)
     if (exercise == 1){
-        console.log(exercise)
+        console.log(bartype)
         squatform.style.display = "block";
         benchform.style.display = "none";
         deadliftform.style.display = "none";
@@ -41,6 +62,11 @@ exerciseType.onchange = function() {
         barposition.removeAttribute('disabled', '');
         let deadliftstance = document.getElementById("deadliftstance");
         deadliftstance.setAttribute('disabled', '');
+        for (i = 0; i < genParameters.length; i++){
+            console.log(genParameters[i]);
+            genParameters[i].style.display = "block";
+            enable(genParameters[i]);
+        }
         
     } else if (exercise == 2){
         console.log(exercise)
@@ -55,6 +81,11 @@ exerciseType.onchange = function() {
         barposition.setAttribute('disabled', '');
         let deadliftstance = document.getElementById("deadliftstance");
         deadliftstance.setAttribute('disabled', '');
+        for (i = 0; i < genParameters.length; i++){
+            console.log(genParameters[i]);
+            genParameters[i].style.display = "block";
+            enable(genParameters[i]);
+        }
 
     } else if (exercise == 3){
         console.log(exercise)
@@ -69,6 +100,11 @@ exerciseType.onchange = function() {
         barposition.setAttribute('disabled', '');
         let deadliftstance = document.getElementById("deadliftstance");
         deadliftstance.removeAttribute('disabled', '');
+        for (i = 0; i < genParameters.length; i++){
+            console.log(genParameters[i]);
+            genParameters[i].style.display = "block";
+            enable(genParameters[i]);
+        }
         console.log(barposition, stancewidth, gripwidth)
 
     } else {
@@ -76,16 +112,24 @@ exerciseType.onchange = function() {
         squatform.style.display = "none";
         benchform.style.display = "none";
         deadliftform.style.display = "none";
+        belt.setAttribute('disabled', '')
+        for (i = 0; i < genParameters.length; i++){
+            console.log(genParameters[i]);
+            genParameters[i].style.display = "none";
+            disable(genParameters[i]);
+        }
         let stancewidth = document.getElementById("stancewidth");
         stancewidth.setAttribute('disabled', '');
+        belt.setAttribute('disabled', '');
+        console.log(belt)
         let gripwidth = document.getElementById("gripwidth");
         gripwidth.setAttribute('disabled', '');
         let barposition = document.getElementById("barposition");
         barposition.setAttribute('disabled', '');
         let deadliftstance = document.getElementById("deadliftstance");
         deadliftstance.setAttribute('disabled', '');
+        }
     }
-}
 
 let setnumber = document.getElementById("setnumber");
 setnumber.onchange = function () {
@@ -111,12 +155,21 @@ function createForm(sets) {
             
     for (i = 1; i <= sets; i++){
         tbl += "<tr>"+
-                    "<td><input type='text' name='reps' class='form-control'></td>"+
-                    "<td><input type='text' name ='weight' class='form-control'></td>"+
-                    "<td><input type='text' name='rpe' class='form-control'></td>"+
+                    "<td><input type='text' name='reps' class='form-control required'></td>"+
+                    "<td><input type='text' name ='weight' class='form-control required'></td>"+
+                    "<td><input type='text' name='rpe' class='form-control required'></td>"+
                 "</tr>";
     }
     tbl += "</table>";
 
     $("#reps-counter").append(tbl);
+}
+
+okayButton = document.getElementById("okay-button");
+setInputButton = document.getElementById("set-input-button");
+finishedButton = document.getElementById("finished-button");
+
+okayButton.onclick = function() {
+    setInputButton.style.display = "block";
+    finishedButton.style.display = "block";
 }
