@@ -3,6 +3,9 @@ from flask import Flask, render_template, session, flash, request, url_for, redi
 from werkzeug.security import generate_password_hash, check_password_hash
 import pymysql
 import pymysql.cursors
+import pandas as pd
+from pandasql import sqldf
+import numpy as np
 import datetime
 if os.path.exists("env.py"):
     import env
@@ -91,7 +94,71 @@ def dashboard():
         with connection.cursor() as cursor:
             cursor.execute("Select * from session where User = %s", userid)
             sessiondata = cursor.fetchall()
-        return render_template("dashboard.html", sessiondata=sessiondata)
+            print(sessiondata)
+            cursor.close()
+            usersessions = []
+            for i in sessiondata:
+                usersessions.append(i[0])
+            print(usersessions)
+            no_duplicates = []
+            [no_duplicates.append(n) for n in usersessions if n not in no_duplicates] 
+            print(no_duplicates)
+
+        exerciselist = []
+        with connection.cursor() as cursor:
+            sql = ('select ExerciseTypeName from exercisetype')
+            cursor.execute(sql)
+            exercisetype = cursor.fetchall()
+            cursor.close()
+        with connection.cursor() as cursor:
+            sql = ('select StanceWidthName from stancewidth')
+            cursor.execute(sql)
+            stancewidth = cursor.fetchall()
+            cursor.close()
+        with connection.cursor() as cursor:
+            sql = ('select BarPosition from barposition')
+            cursor.execute(sql)
+            barposition = cursor.fetchall()
+            cursor.close()
+        with connection.cursor() as cursor:
+            sql = ('select BarType from bartype')
+            cursor.execute(sql)
+            bartype = cursor.fetchall()
+            cursor.close()
+        with connection.cursor() as cursor:
+            sql = ('select Tempo from tempo')
+            cursor.execute(sql)
+            tempo = cursor.fetchall()
+            cursor.close()
+        with connection.cursor() as cursor:
+            sql = ('select Pin from pin')
+            cursor.execute(sql)
+            pin = cursor.fetchall()
+            cursor.close()
+        with connection.cursor() as cursor:
+            sql = ('select GripWidth from gripwidth')
+            cursor.execute(sql)
+            gripwidth = cursor.fetchall()
+            cursor.close()
+        with connection.cursor() as cursor:
+            sql = ('select DeadliftStanceName from deadliftstance')
+            cursor.execute(sql)
+            deadliftstance = cursor.fetchall()
+            cursor.close()
+        parameterFinder = (
+            exercisetype, stancewidth, gripwidth,
+            barposition, bartype, tempo, pin, deadliftstance,)
+        
+        for x in no_duplicates:
+            with connection.cursor() as cursor:
+                cursor.execute("select * from exercise where SessionId = %s", x)
+                exercise = cursor.fetchall()
+                exerciselist.append(exercise)
+                cursor.close()
+        print(exerciselist)
+
+    return render_template(
+            "dashboard.html", sessiondata=sessiondata, exerciselist=exerciselist)
 
 
 @app.route("/log1", methods=["GET", "POST"])

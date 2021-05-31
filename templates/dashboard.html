@@ -23,17 +23,35 @@
                     </thead>
                     <tbody>
                         {% for row in sessiondata %}
-                            <tr>
-                                <th scope="row">{{ row[4] }}</th>
-                                <td>{{ row[2] }}</td>
-                                <td>{{ row[3] }}</td>
-                                <td>{{ row[5] }}</td>
-                                <td>{{ row[6] }}</td>
-                            </tr>
+                        <tr>
+                            <th scope="row">{{ row[4] }}</th>
+                            <td>{{ row[2] }}</td>
+                            <td>{{ row[3] }}</td>
+                            <td>{{ row[5] }}</td>
+                            <td>{{ row[6] }}</td>
+                        </tr>
                         {% endfor %}
                     </tbody>
                 </table>
-                <div></div>
+                <table>
+                {% for x in exerciselist %}
+                    <tr>
+                        <th scope="row">{{ x[0] }}</th>
+                        <td>{{ x[1] }}</td>
+                        <td>{{ x[2] }}</td>
+                        <td>{{ x[3] }}</td>
+                        <td>{{ x[4] }}</td>
+                        <td>{{ x[5] }}</td>
+                        <td>{{ x[6] }}</td>
+                        <td>{{ x[7] }}</td>
+                        <td>{{ x[8] }}</td>
+                        <td>{{ x[9] }}</td>
+                        <td>{{ x[10] }}</td>
+                        <td>{{ x[11] }}</td>
+                        <td>{{ x[12] }}</td>
+                    </tr>
+                {% endfor %}
+                </table>
             </div>
         </div>
     </div>
