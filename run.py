@@ -81,12 +81,17 @@ def dashboard():
     if session["user"]:
         connection = pymysql.connect(
             host='localhost', user='root', passwd='', db='gymdb')
+
         with connection.cursor() as cursor:
             cursor.execute(
-                "SELECT * from user where Username = %s", session["user"])
-            userdata = cursor.fetchall()
+                "SELECT UserId from user where Username = %s", session["user"])
+            userid = cursor.fetchall()[0][0]
             cursor.close()
-        return render_template("dashboard.html", userdata=userdata)
+
+        with connection.cursor() as cursor:
+            cursor.execute("Select * from session where User = %s", userid)
+            sessiondata = cursor.fetchall()
+        return render_template("dashboard.html", sessiondata=sessiondata)
 
 
 @app.route("/log1", methods=["GET", "POST"])

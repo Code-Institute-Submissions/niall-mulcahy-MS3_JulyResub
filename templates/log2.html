@@ -62,36 +62,36 @@
                 </div>
             </div>
         </div>
-            <div class="form-group" id="bartype">
+            <div class="form-group" id="bartype-section">
                 <label for="bartype">Bar Type:</label>
-                <select class="form-control" name="bartype">
+                <select class="form-control" name="bartype" id="bartype">
                     {% for x in bartype %}
                     <option value="{{ x[0] }}">{{ x[1] }}</option>
                     {% endfor %}
                 </select>
             </div>
-            <div class="form-group" id="belt">
+            <div class="form-group" id="belt-section">
                 <label for="belt">Belt:</label>
                 <select class="form-control" name="belt" id="belt">
                     <option value="1">Yes</option>
                     <option value="0">No</option>
                 </select>
             </div>
-            <div class="form-group" id="tempo">
+            <div class="form-group" id="tempo-section">
                 <label for="tempo">Tempo</label>
-                <select class="form-control" name="tempo">
+                <select class="form-control" name="tempo" id="tempo">
                     {% for x in tempo %}
                     <option value="{{ x[0] }}">{{ x[1] }}</option>
                     {% endfor %}
                 </select>
             </div>
-            <div class="form-group" id="pause">
+            <div class="form-group" id="pause-section">
                 <label for="pause">Pause:</label>
-                <input class="form-control" name="pause" type="number" value="0">
+                <input class="form-control" name="pause" id="pause" type="number" value="0">
             </div>
-            <div class="form-group"  id="pin">
+            <div class="form-group"  id="pin-section">
                 <label for="pin">Pin:</label>
-                <select class="form-control" name="pin">
+                <select class="form-control" name="pin" id="pin">
                     {% for x in pin %}
                     <option value="{{ x[0] }}">{{ x[1] }}</option>
                     {% endfor %}

@@ -29,14 +29,21 @@ let deadliftform = document.getElementById("deadlift-section");
 let stancewidth = document.getElementById("stancewidth");
 let gripwidth = document.getElementById("gripwidth");
 let barposition = document.getElementById("barposition");
+let bartypeSection = document.getElementById("bartype-section");
+let beltSection = document.getElementById("belt-section");
+let tempoSection = document.getElementById("tempo-section");
+let pauseSection = document.getElementById("pause-section");
+let pinSection = document.getElementById("pin-section");
+let deadliftstance = document.getElementById("deadliftstance");
+
 let bartype = document.getElementById("bartype");
 let belt = document.getElementById("belt");
 let tempo = document.getElementById("tempo");
 let pause = document.getElementById("pause");
 let pin = document.getElementById("pin");
-let deadliftstance = document.getElementById("deadliftstance");
 
-genParameters = [bartype, belt, tempo, pause, pin]
+genParamDivs = [bartypeSection, beltSection, tempoSection, pauseSection, pinSection];
+genParamInputs = [bartype, belt, tempo, pause, pin];
 
 function disable(exerciseparam){
     exerciseparam.setAttribute('disabled', '');
@@ -62,10 +69,14 @@ exerciseType.onchange = function() {
         barposition.removeAttribute('disabled', '');
         let deadliftstance = document.getElementById("deadliftstance");
         deadliftstance.setAttribute('disabled', '');
-        for (i = 0; i < genParameters.length; i++){
-            console.log(genParameters[i]);
-            genParameters[i].style.display = "block";
-            enable(genParameters[i]);
+        for (i = 0; i < genParamDivs.length; i++){
+            console.log(genParamDivs[i]);
+            genParamDivs[i].style.display = "block";
+        }
+        
+        for (i = 0; i < genParamInputs.length; i++){
+            console.log(genParamInputs[i]);
+            enable(genParamInputs[i]);
         }
         
     } else if (exercise == 2){
@@ -81,10 +92,14 @@ exerciseType.onchange = function() {
         barposition.setAttribute('disabled', '');
         let deadliftstance = document.getElementById("deadliftstance");
         deadliftstance.setAttribute('disabled', '');
-        for (i = 0; i < genParameters.length; i++){
-            console.log(genParameters[i]);
-            genParameters[i].style.display = "block";
-            enable(genParameters[i]);
+        for (i = 0; i < genParamDivs.length; i++){
+            console.log(genParamDivs[i]);
+            genParamDivs[i].style.display = "block";
+        }
+        
+        for (i = 0; i < genParamInputs.length; i++){
+            console.log(genParamInputs[i]);
+            enable(genParamInputs[i]);
         }
 
     } else if (exercise == 3){
@@ -100,12 +115,15 @@ exerciseType.onchange = function() {
         barposition.setAttribute('disabled', '');
         let deadliftstance = document.getElementById("deadliftstance");
         deadliftstance.removeAttribute('disabled', '');
-        for (i = 0; i < genParameters.length; i++){
-            console.log(genParameters[i]);
-            genParameters[i].style.display = "block";
-            enable(genParameters[i]);
+        for (i = 0; i < genParamDivs.length; i++){
+            console.log(genParamDivs[i]);
+            genParamDivs[i].style.display = "none";
         }
-        console.log(barposition, stancewidth, gripwidth)
+        
+        for (i = 0; i < genParamInputs.length; i++){
+            console.log(genParamInputs[i]);
+            enable(genParamInputs[i]);
+        }
 
     } else {
         console.log("other exercise")
@@ -113,15 +131,18 @@ exerciseType.onchange = function() {
         benchform.style.display = "none";
         deadliftform.style.display = "none";
         belt.setAttribute('disabled', '')
-        for (i = 0; i < genParameters.length; i++){
-            console.log(genParameters[i]);
-            genParameters[i].style.display = "none";
-            disable(genParameters[i]);
+        for (i = 0; i < genParamDivs.length; i++){
+            console.log(genParamDivs[i]);
+            genParamDivs[i].style.display = "none";
         }
+        
+        for (i = 0; i < genParamInputs.length; i++){
+            console.log(genParamInputs[i]);
+            disable(genParamInputs[i]);
+        }
+
         let stancewidth = document.getElementById("stancewidth");
         stancewidth.setAttribute('disabled', '');
-        belt.setAttribute('disabled', '');
-        console.log(belt)
         let gripwidth = document.getElementById("gripwidth");
         gripwidth.setAttribute('disabled', '');
         let barposition = document.getElementById("barposition");
