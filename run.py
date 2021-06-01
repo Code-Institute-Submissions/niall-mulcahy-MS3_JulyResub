@@ -102,58 +102,14 @@ def dashboard():
             print(no_duplicates)
 
         exerciselist = []
-        with connection.cursor() as cursor:
-            sql = ('select ExerciseTypeName from exercisetype')
-            cursor.execute(sql)
-            exercisetype = cursor.fetchall()
-            cursor.close()
-        with connection.cursor() as cursor:
-            sql = ('select StanceWidthName from stancewidth')
-            cursor.execute(sql)
-            stancewidth = cursor.fetchall()
-            cursor.close()
-        with connection.cursor() as cursor:
-            sql = ('select BarPosition from barposition')
-            cursor.execute(sql)
-            barposition = cursor.fetchall()
-            cursor.close()
-        with connection.cursor() as cursor:
-            sql = ('select BarType from bartype')
-            cursor.execute(sql)
-            bartype = cursor.fetchall()
-            cursor.close()
-        with connection.cursor() as cursor:
-            sql = ('select Tempo from tempo')
-            cursor.execute(sql)
-            tempo = cursor.fetchall()
-            cursor.close()
-        with connection.cursor() as cursor:
-            sql = ('select Pin from pin')
-            cursor.execute(sql)
-            pin = cursor.fetchall()
-            cursor.close()
-        with connection.cursor() as cursor:
-            sql = ('select GripWidth from gripwidth')
-            cursor.execute(sql)
-            gripwidth = cursor.fetchall()
-            cursor.close()
-        with connection.cursor() as cursor:
-            sql = ('select DeadliftStanceName from deadliftstance')
-            cursor.execute(sql)
-            deadliftstance = cursor.fetchall()
-            cursor.close()
-        parameterFinder = (
-            exercisetype, stancewidth, gripwidth,
-            barposition, bartype, tempo, pin, deadliftstance,)
-        
         for x in no_duplicates:
             with connection.cursor() as cursor:
                 cursor.execute("select * from exercise where SessionId = %s", x)
                 exercise = cursor.fetchall()
                 exerciselist.append(exercise)
                 cursor.close()
-        print(exerciselist)
-
+        newlists = list([list(x) for x in exerciselist])
+        print(newlists)
     return render_template(
             "dashboard.html", sessiondata=sessiondata, exerciselist=exerciselist)
 
@@ -308,3 +264,47 @@ if __name__ == "__main__":
         debug=True)
 
 
+#   with connection.cursor() as cursor:
+#             sql = ('select * from exercisetype')
+#             cursor.execute(sql)
+#             exercisetype = cursor.fetchall()
+#             cursor.close()
+#         with connection.cursor() as cursor:
+#             sql = ('select * from stancewidth')
+#             cursor.execute(sql)
+#             stancewidth = cursor.fetchall()
+#             cursor.close()
+#         with connection.cursor() as cursor:
+#             sql = ('select * from barposition')
+#             cursor.execute(sql)
+#             barposition = cursor.fetchall()
+#             cursor.close()
+#         with connection.cursor() as cursor:
+#             sql = ('select * from bartype')
+#             cursor.execute(sql)
+#             bartype = cursor.fetchall()
+#             cursor.close()
+#         with connection.cursor() as cursor:
+#             sql = ('select * from tempo')
+#             cursor.execute(sql)
+#             tempo = cursor.fetchall()
+#             cursor.close()
+#         with connection.cursor() as cursor:
+#             sql = ('select * from pin')
+#             cursor.execute(sql)
+#             pin = cursor.fetchall()
+#             cursor.close()
+#         with connection.cursor() as cursor:
+#             sql = ('select * from gripwidth')
+#             cursor.execute(sql)
+#             gripwidth = cursor.fetchall()
+#             cursor.close()
+#         with connection.cursor() as cursor:
+#             sql = ('select * from deadliftstance')
+#             cursor.execute(sql)
+#             deadliftstance = cursor.fetchall()
+#             cursor.close()
+#         parameterFinder = (
+#             exercisetype, stancewidth, gripwidth,
+#             barposition, bartype, tempo, pin, deadliftstance,)
+#         print(parameterFinder)
