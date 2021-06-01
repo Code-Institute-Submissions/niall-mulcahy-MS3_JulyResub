@@ -11,7 +11,6 @@
         <div class="row align-items-center">
             <div class="col">
                 <table class="table table-hover table-bordered">
-                    <caption>List of users</caption>
                     <thead class="thead-dark">
                         <tr>
                             <th scope="col">Session Name</th>
@@ -24,7 +23,7 @@
                     <tbody>
                         {% for row in sessiondata %}
                         <tr>
-                            <th scope="row">{{ row[4] }}</th>
+                            <th scope="row"><a href="#exercises" data-toggle="collapse">{{ row[4] }}</a></th>
                             <td>{{ row[2] }}</td>
                             <td>{{ row[3] }}</td>
                             <td>{{ row[5] }}</td>
@@ -33,24 +32,47 @@
                         {% endfor %}
                     </tbody>
                 </table>
-                <table>
-                {% for x in exerciselist %}
+            </div>
+        </div>
+        <div class="row align-items-center collapse" id="exercises">
+            <div class="col">
+                <table class="table table-hover table-bordered">
                     <tr>
-                        <th scope="row">{{ x[0] }}</th>
-                        <td>{{ x[1] }}</td>
-                        <td>{{ x[2] }}</td>
-                        <td>{{ x[3] }}</td>
-                        <td>{{ x[4] }}</td>
-                        <td>{{ x[5] }}</td>
-                        <td>{{ x[6] }}</td>
-                        <td>{{ x[7] }}</td>
-                        <td>{{ x[8] }}</td>
-                        <td>{{ x[9] }}</td>
-                        <td>{{ x[10] }}</td>
-                        <td>{{ x[11] }}</td>
-                        <td>{{ x[12] }}</td>
+                        <th>Exercise</th>
+                        <th>Stance Width</th>
+                        <th>Bar Position</th>
+                        <th>Bar Type</th>
+                        <th>Belt</th>
+                        <th>Tempo</th>
+                        <th>Pause</th>
+                        <th>Pin</th>
                     </tr>
-                {% endfor %}
+                    <tr>
+                        <td><a href="#set" data-toggle="collapse">Squat</a></td>
+                        <td>Competition</td>
+                        <td>Low Bar</td>
+                        <td>Stiff Bar</td>
+                        <td>Yes</td>
+                        <td>210</td>
+                        <td>1</td>
+                        <td>No</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <div class="row align-items-center collapse" id="set">
+            <div class="col">
+                <table class="table table-hover table-bordered">
+                    <tr>
+                        <th>Reps</th>
+                        <th>Weight</th>
+                        <th>RPE</th>
+                    </tr>
+                    <tr>
+                        <td>8</td>
+                        <td>140</td>
+                        <td>7</td>
+                    </tr>
                 </table>
             </div>
         </div>
