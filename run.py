@@ -3,9 +3,6 @@ from flask import Flask, render_template, session, flash, request, url_for, redi
 from werkzeug.security import generate_password_hash, check_password_hash
 import pymysql
 import pymysql.cursors
-import pandas as pd
-from pandasql import sqldf
-import numpy as np
 import datetime
 if os.path.exists("env.py"):
     import env
