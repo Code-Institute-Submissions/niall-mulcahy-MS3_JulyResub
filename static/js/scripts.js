@@ -117,7 +117,7 @@ exerciseType.onchange = function() {
         deadliftstance.removeAttribute('disabled', '');
         for (i = 0; i < genParamDivs.length; i++){
             console.log(genParamDivs[i]);
-            genParamDivs[i].style.display = "none";
+            genParamDivs[i].style.display = "block";
         }
         
         for (i = 0; i < genParamInputs.length; i++){
@@ -194,3 +194,7 @@ okayButton.onclick = function() {
     setInputButton.style.display = "block";
     finishedButton.style.display = "block";
 }
+
+$('#myCollapsible').collapse({
+  toggle: false
+})

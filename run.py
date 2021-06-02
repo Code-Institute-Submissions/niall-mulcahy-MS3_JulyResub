@@ -81,7 +81,6 @@ def dashboard():
     if session["user"]:
         connection = pymysql.connect(
             host='localhost', user='root', passwd='', db='gymdb')
-
         with connection.cursor() as cursor:
             cursor.execute(
                 "SELECT UserId from user where Username = %s", session["user"])
@@ -100,22 +99,45 @@ def dashboard():
             no_duplicates = []
             [no_duplicates.append(n) for n in usersessions if n not in no_duplicates] 
             print(no_duplicates)
-
         exerciselist = []
+
         for x in no_duplicates:
             with connection.cursor() as cursor:
-                cursor.execute("select * from exercise where SessionId = %s", x)
+                cursor.execute("select * from display_exercise where SessionId = %s", x)
                 exercise = cursor.fetchall()
                 exerciselist.append(exercise)
                 cursor.close()
-        for x in exerciselist:
+        print(exerciselist)
+        userexercises = []
+
+        def Remove(tuples):
+            tuples = [t for t in tuples if t]
+            return tuples
+        
+        emptyTupleRemoved = Remove(exerciselist)
+        emptyexremovedlist = list([list(x) for x in emptyTupleRemoved])
+        print(emptyexremovedlist)
+        for x in emptyexremovedlist:
             print(x)
             for y in x:
-                print(y)
-                for z in y:
-                    print(z)
+                list(y)
+                userexercises.append(y)
+        listb = [list(x) for x in userexercises]
+        userExIds = []
+        for x in listb:
+            userExIds.append(x[1])
+        print(userExIds)
+
+        sets = []
+        for x in userExIds:
+            with connection.cursor() as cursor:
+                cursor.execute("Select * from sets where ExerciseId = %s", x)
+                settuple = cursor.fetchall()
+                sets.append(settuple)
+                cursor.close()
+        print(sets)
     return render_template(
-            "dashboard.html", sessiondata=sessiondata, exerciselist=exerciselist)
+            "dashboard.html", listb=listb, sessiondata=sessiondata, sets=sets)
 
 
 @app.route("/log1", methods=["GET", "POST"])
