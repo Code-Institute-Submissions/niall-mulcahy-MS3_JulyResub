@@ -275,10 +275,11 @@ def log3():
 
     for x in no_duplicates:
         with connection.cursor() as cursor:
-            cursor.execute("select * from exercise where SessionId = %s", x)
+            cursor.execute("select * from display_exercise where SessionId = %s", x)
             exercise = cursor.fetchall()
             exerciselist.append(exercise)
             cursor.close()
+    print(exerciselist)
     userexercises = []
 
     def Remove(tuples):
@@ -296,7 +297,7 @@ def log3():
     listb = [list(x) for x in userexercises]
     userExIds = []
     for x in listb:
-        userExIds.append(x[0])
+        userExIds.append(x[1])
     print(userExIds)
 
     sets = []

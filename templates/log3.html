@@ -13,11 +13,11 @@
             <div>
                 <div>{{ session }}</div>
                 {% for exercise in listb %}
-                    {% if session[0] == exercise[1] %}
+                    {% if session[0] == exercise[0] %}
                         <div>{{ exercise }}</div>
                         {% for setlist in sets %}
                             {% for x in setlist %}
-                                {% if x[1] == exercise[0] %}
+                                {% if x[1] == exercise[1] %}
                                     <div>{{ x }}</div>
                                 {% endif %}
                             {% endfor %}
