@@ -111,8 +111,12 @@ def dashboard():
                 exercise = cursor.fetchall()
                 exerciselist.append(exercise)
                 cursor.close()
-        newlists = list([list(x) for x in exerciselist])
-        print(newlists)
+        for x in exerciselist:
+            print(x)
+            for y in x:
+                print(y)
+                for z in y:
+                    print(z)
     return render_template(
             "dashboard.html", sessiondata=sessiondata, exerciselist=exerciselist)
 
@@ -250,7 +254,64 @@ def log2():
 
 @app.route("/log3", methods=["GET", "POST"])
 def log3():
-    return render_template("log3.html")
+    connection = pymysql.connect(
+            host='localhost', user='root', passwd='', db='gymdb')
+    with connection.cursor() as cursor:
+        cursor.execute(
+            "SELECT UserId from user where Username = %s", session["user"])
+        userid = cursor.fetchall()[0][0]
+        cursor.close()
+
+    with connection.cursor() as cursor:
+        cursor.execute("Select * from session where User = %s", userid)
+        sessiondata = cursor.fetchall()
+        print(sessiondata)
+        cursor.close()
+        usersessions = []
+        for i in sessiondata:
+            usersessions.append(i[0])
+        print(usersessions)
+        no_duplicates = []
+        [no_duplicates.append(n) for n in usersessions if n not in no_duplicates] 
+        print(no_duplicates)
+    exerciselist = []
+
+    for x in no_duplicates:
+        with connection.cursor() as cursor:
+            cursor.execute("select * from exercise where SessionId = %s", x)
+            exercise = cursor.fetchall()
+            exerciselist.append(exercise)
+            cursor.close()
+    userexercises = []
+
+    def Remove(tuples):
+        tuples = [t for t in tuples if t]
+        return tuples
+    
+    emptyTupleRemoved = Remove(exerciselist)
+    emptyexremovedlist = list([list(x) for x in emptyTupleRemoved])
+    print(emptyexremovedlist)
+    for x in emptyexremovedlist:
+        print(x)
+        for y in x:
+            list(y)
+            userexercises.append(y)
+    listb = [list(x) for x in userexercises]
+    userExIds = []
+    for x in listb:
+        userExIds.append(x[0])
+    print(userExIds)
+
+    sets = []
+    for x in userExIds:
+        with connection.cursor() as cursor:
+            cursor.execute("Select * from sets where ExerciseId = %s", x)
+            settuple = cursor.fetchall()
+            sets.append(settuple)
+            cursor.close()
+    print(sets)
+
+    return render_template("log3.html", listb=listb, sessiondata=sessiondata, sets=sets)
 
 
 @app.route("/logout", methods=["GET"])
