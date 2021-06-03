@@ -6,10 +6,13 @@
     <a href="{{ url_for('logout') }}">Log out</a>
 </div>
 
-    <section>
-        {% for session in sessiondata %}
-            <div class="container">
-                <table class="table table-bordered mx-auto">
+<section>
+    {% for session in sessiondata %}
+        <div id="table-holder" class="mx-auto container">
+
+            <table class="table table-bordered table-hover mx-auto">
+
+                <tr>
                     <thead class="thead-dark">
                         <tr>
                             <th>Session Name</th>
@@ -19,19 +22,23 @@
                             <th>Session Workload</th>
                         </tr>
                     </thead>
-                    <tr>
-                        <td><a href="#" data-toggle="collapse" data-target=".collapse">{{ session[4] }}</a></td>
-                        <td>{{ session[2] }}</td>
-                        <td>{{ session[3] }}</td>
-                        <td>{{ session[5] }}</td>
-                        <td>{{ session[6] }}</td>
-                    </tr>
-                    <tr>
-                        <th>Exercises</th>
-                    </tr>
-                    {% for exercise in listb %}
+                </tr>
+
+                <tr class="table-success">
+                    <th class="session-name" data-target=".collapse" data-toggle="collapse"><a href="#">{{ session[4] }}</a></th>
+                    <td>{{ session[2] }}</td>
+                    <td>{{ session[3] }}</td>
+                    <td>{{ session[5] }}</td>
+                    <td>{{ session[6] }}</td>
+                </tr>
+
+                <tr>
+                    <th>Exercise</th>
+                </tr>
+
+                {% for exercise in listb %}
                         {% if session[0] == exercise[0] %}
-                            <tr class="collapse">
+                            <tr class="table-active exercise-list multi-collapse collapse">
                                 <td>{{ exercise[2] }}</td>
                                 <td>{{ exercise[3] }}</td>
                                 <th>{{ exercise[4] }}</th>
@@ -43,15 +50,15 @@
                                 <td>{{ exercise[10] }}</td>
                                 <td>{{ exercise[11] }}</td>
                             </tr>
-                            <tr>
+
+                            <tr class="table-primary">
                                 <th>Reps</th>
                                 <th>Weight</th>
                                 <th>RPE</th>
                             </tr>
-                            {% for setlist in sets %}
+                             {% for setlist in sets %}
                                 {% for x in setlist %}
                                     {% if x[1] == exercise[1] %}
-                                        
                                         <tr class="collapse">
                                             <td>{{ x[2] }}</td>
                                             <td>{{ x[3] }}</td>
@@ -65,7 +72,8 @@
                 </table>
             </div>
         {% endfor %}
-    </section>
+
+</section>
 
 <a href="{{ url_for('log3') }}">Test Page</a>
 

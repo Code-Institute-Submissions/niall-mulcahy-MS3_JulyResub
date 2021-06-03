@@ -195,6 +195,3 @@ okayButton.onclick = function() {
     finishedButton.style.display = "block";
 }
 
-$('#myCollapsible').collapse({
-  toggle: false
-})
