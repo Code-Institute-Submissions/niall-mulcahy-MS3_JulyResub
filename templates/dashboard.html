@@ -9,16 +9,18 @@
     <section>
         {% for session in sessiondata %}
             <div class="container">
-                <table class="table mx-auto">
+                <table class="table table-bordered mx-auto">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th>Session Name</th>
+                            <th>Session Date</th>
+                            <th>Time in Minutes</th>
+                            <th>Session RPE</th>
+                            <th>Session Workload</th>
+                        </tr>
+                    </thead>
                     <tr>
-                        <th>Session Name</th>
-                        <th>Session Date</th>
-                        <th>Time in Minutes</th>
-                        <th>Session RPE</th>
-                        <th>Session Workload</th>
-                    </tr>
-                    <tr>
-                        <td><a href="#{{ session4 }}" data-toggle="collapse" data-target=".collapse">{{ session[4] }}</a></td>
+                        <td><a href="#" data-toggle="collapse" data-target=".collapse">{{ session[4] }}</a></td>
                         <td>{{ session[2] }}</td>
                         <td>{{ session[3] }}</td>
                         <td>{{ session[5] }}</td>
