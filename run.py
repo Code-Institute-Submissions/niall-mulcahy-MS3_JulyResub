@@ -88,7 +88,7 @@ def dashboard():
             cursor.close()
 
         with connection.cursor() as cursor:
-            cursor.execute("Select * from session where User = %s", userid)
+            cursor.execute("Select * from session where User = %s order by SessionDate DESC", userid)
             sessiondata = cursor.fetchall()
             print(sessiondata)
             cursor.close()
@@ -103,7 +103,18 @@ def dashboard():
 
         for x in no_duplicates:
             with connection.cursor() as cursor:
-                cursor.execute("select * from display_exercise where SessionId = %s", x)
+                cursor.execute('''SELECT SessionId, ExerciseId, 
+                                    CONCAT(ExerciseTypeName, 
+                                    IF(BarTypeName is not null and BarTypeName != '', CONCAT(', ', BarTypeName), ''),
+                                    IF(BarPositionName is not null and BarPositionName != '', CONCAT(', ', BarPositionName), ''),
+                                    IF(PinHeight is not null and PinHeight <> '' , CONCAT(', ', PinHeight), ''),
+                                    IF(SnatchGrip = 1,', Snatch Grip', ''),
+                                    IF(Belt is null, '', IF(Belt = 0, ', Beltless' , ', With Belt')),
+                                    IF(GripWidthName is not null and GripWidthName != '', CONCAT(', ', GripWidthName), ''),
+                                    IF(StanceWidthName is not null and StanceWidthName != '', CONCAT(', ', StanceWidthName), ''),
+                                    IF(Pause is not null and Pause <> '' , CONCAT(', ', Pause), ''),
+                                    IF(TempoType != '', CONCAT(', Tempo ', TempoType), '')) as ExerciseTextualDescription
+                                    FROM gymdb.display_exercise where SessionId = %s''', x)
                 exercise = cursor.fetchall()
                 exerciselist.append(exercise)
                 cursor.close()
@@ -113,7 +124,7 @@ def dashboard():
         def Remove(tuples):
             tuples = [t for t in tuples if t]
             return tuples
-        
+       
         emptyTupleRemoved = Remove(exerciselist)
         emptyexremovedlist = list([list(x) for x in emptyTupleRemoved])
         print(emptyexremovedlist)
@@ -135,7 +146,6 @@ def dashboard():
                 settuple = cursor.fetchall()
                 sets.append(settuple)
                 cursor.close()
-        print(sets)
     return render_template(
             "dashboard.html", listb=listb, sessiondata=sessiondata, sets=sets)
 

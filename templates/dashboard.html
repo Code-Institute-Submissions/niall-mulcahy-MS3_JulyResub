@@ -6,77 +6,78 @@
     <a href="{{ url_for('logout') }}">Log out</a>
 </div>
 
-<section>
+    <div class="container">
+    {% set x = sessiondata %}
+    {% set y = listb %}
+    {% if x|length %}
     {% for session in sessiondata %}
-        <div id="table-holder" class="mx-auto container">
-
-            <table class="table table-bordered table-hover mx-auto">
-
-                <tr>
-                    <thead class="thead-dark">
-                        <tr>
-                            <th>Session Name</th>
-                            <th>Session Date</th>
-                            <th>Time in Minutes</th>
-                            <th>Session RPE</th>
-                            <th>Session Workload</th>
-                        </tr>
-                    </thead>
-                </tr>
-
-                <tr class="table-success">
-                    <th class="session-name" data-target=".collapse" data-toggle="collapse"><a href="#">{{ session[4] }}</a></th>
-                    <td>{{ session[2] }}</td>
-                    <td>{{ session[3] }}</td>
-                    <td>{{ session[5] }}</td>
-                    <td>{{ session[6] }}</td>
-                </tr>
-
-                <tr>
-                    <th>Exercise</th>
-                </tr>
-
-                {% for exercise in listb %}
-                        {% if session[0] == exercise[0] %}
-                            <tr class="table-active exercise-list multi-collapse collapse">
-                                <td>{{ exercise[2] }}</td>
-                                <td>{{ exercise[3] }}</td>
-                                <th>{{ exercise[4] }}</th>
-                                <td>{{ exercise[5] }}</td>
-                                <td>{{ exercise[6] }}</td>
-                                <td>{{ exercise[7] }}</td>
-                                <td>{{ exercise[8] }}</td>
-                                <td>{{ exercise[9] }}</td>
-                                <td>{{ exercise[10] }}</td>
-                                <td>{{ exercise[11] }}</td>
-                            </tr>
-
-                            <tr class="table-primary">
-                                <th>Reps</th>
-                                <th>Weight</th>
-                                <th>RPE</th>
-                            </tr>
-                             {% for setlist in sets %}
-                                {% for x in setlist %}
-                                    {% if x[1] == exercise[1] %}
-                                        <tr class="collapse">
-                                            <td>{{ x[2] }}</td>
-                                            <td>{{ x[3] }}</td>
-                                            <td>{{ x[4] }}</td>
+    <table class="session-table table table-bordered">
+        <thead class="thead-dark">
+            <tr class="text-center table-font">
+                <th>Session Name</th>
+                <th>Session Date</th>
+                <th>Session Time in Minutes</th>
+                <th>Session RPE</th>
+                <th>Session Workload</th>
+            </tr>
+        </thead>
+            <tr class="text-center table-font">
+                <td>{{ session[4] }}</td>
+                <td>{{ session[2] }}</td>
+                <td>{{ session[3] }}</td>
+                <td>{{ session[5] }}</td>
+                <td>{{ session[6] }}</td>
+            </tr>
+            
+            {% if y|length %}
+            {% for exercise in listb %}
+                {% if session[0] == exercise[0] %}
+                    <tr>
+                        <table class="exercise exercise-table table table-bordered">
+                            <tr>
+                                <tr class="table-primary"><th colspan="2">Exercise Name</th></tr>
+                                <td class="exercise-row blockquote fs-2" id="exercise-string">{{ exercise[2] }}</td>
+                            <td>
+                                <table class="sets-table table table-bordered">
+                                    <thead>
+                                        <tr class="table-primary">
+                                            <th>Reps</th>
+                                            <th>Weight</th>
+                                            <th>RPE</th>
                                         </tr>
-                                    {% endif %}
-                                {% endfor %}
-                            {% endfor %}
-                        {% endif %}
+                                    </thead>
+                                    {% for setlist in sets %}
+                                    {% for x in setlist %}
+                                        {% if x[1] == exercise[1] %}        
+                                            <tr>
+                                                <td>{{ x[2] }}</td>
+                                                <td>{{ x[3] }}</td>
+                                                <td>{{ x[4] }}</td>
+                                            </tr>
+                                        {% endif %}
+                                    {% endfor %}
+                                    {% endfor %}
+                                </table>
+                            </td>
+                            </tr>
+
+                        </table>
+                    </tr>
+                    {% endif %}
                     {% endfor %}
-                </table>
-            </div>
-        {% endfor %}
-
-</section>
-
+                    {% else %}
+                    <td>You have no exercises for this session!</td>
+                    {% endif %}
+        </table>
+        <br>
+        <br>
+        <br>
+    {% endfor %}
+    {% else %}
+        <h2 class="text-center">You have no sessions, to log a new session click <a href="{{url_for('log1') }}">here</a></h2>
+    {% endif %}
+</div>
 <a href="{{ url_for('log3') }}">Test Page</a>
 
 {% endblock %}
-
 

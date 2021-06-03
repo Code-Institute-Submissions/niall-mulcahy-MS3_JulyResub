@@ -7,17 +7,17 @@
     <form method="post" action="{{ url_for('log1') }}" class="card-body">
         <div class="form-group">
             <label for="session-name">Session Name</label>
-            <input type="text" class="form-control" name="session-name" aria-describedby="session-name">
+            <input type="text" class="form-control" required name="session-name" aria-describedby="session-name">
         </div>
         <small id="timeHelp" class="form-text text-muted">This may relate to the session's position in the training block, eg. Week 1 Day 5 etc.</small>
         <div class="form-group">
             <label for="session-date">Session Date</label>
-            <input type="date" class="form-control" name="session-date" aria-describedby="session-date">
+            <input type="date" class="form-control"  required name="session-date" aria-describedby="session-date">
         </div>
         <small id="timeHelp" class="form-text text-muted">Note that this is a 24 hour clock.</small>
         <div class="form-group">
             <label for="session-time">Session Time in Minutes</label>
-            <input type="number" name="session-time" class="form-control">
+            <input type="number" name="session-time" class="form-control" required>
         </div>
         <div class="form-group">
             <label for="session-rpe">Session RPE</label>

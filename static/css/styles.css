@@ -10138,3 +10138,11 @@ footer.footer {
     text-decoration: none;
     color: white;
 }
+
+.exercise-row {
+    width: 40%;
+}
+
+.table-font {
+    font-size: larger;
+}

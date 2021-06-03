@@ -1,99 +1,48 @@
 {% extends "base.html" %}
 {% block content %}
-
-<div class="container card bg-light mb-3 mt-3">
-    <div class="row justify-content-center">
-        <h2 class="display-4 mt-2">Testing</h2>
-    </div>
-
-
-
-    <section>
-        {% for session in sessiondata %}
-            <div>
-                <div>{{ session }}</div>
-                {% for exercise in listb %}
-                    {% if session[0] == exercise[0] %}
-                        <div>{{ exercise }}</div>
-                        {% for setlist in sets %}
-                            {% for x in setlist %}
-                                {% if x[1] == exercise[1] %}
-                                    <div>{{ x }}</div>
-                                {% endif %}
-                            {% endfor %}
-                        {% endfor %}
-                    {% endif %}
-                {% endfor %}
-            </div>
-        {% endfor %}
-    </section>
-
-    
-    {% for session in sessiondata %}
-        <div>
-
-            <table class="table table-bordered">
-
-                <tr>
-                    <thead class="thead-dark">
-                        <tr>
-                            <th>Session Name</th>
-                            <th>Session Date</th>
-                            <th>Time in Minutes</th>
-                            <th>Session RPE</th>
-                            <th>Session Workload</th>
-                        </tr>
-                    </thead>
-                </tr>
-
-                <tr class="table-success">
-                    <th>{{ session[4] }}</th>
-                    <td>{{ session[2] }}</td>
-                    <td>{{ session[3] }}</td>
-                    <td>{{ session[5] }}</td>
-                    <td>{{ session[6] }}</td>
-                </tr>
-
-                <tr>
-                    <th>Exercise</th>
-                </tr>
-
-                {% for exercise in listb %}
-                        {% if session[0] == exercise[0] %}
-                            <tr class="table-active">
-                                <td>{{ exercise[2] }}</td>
-                                <td>{{ exercise[3] }}</td>
-                                <th>{{ exercise[4] }}</th>
-                                <td>{{ exercise[5] }}</td>
-                                <td>{{ exercise[6] }}</td>
-                                <td>{{ exercise[7] }}</td>
-                                <td>{{ exercise[8] }}</td>
-                                <td>{{ exercise[9] }}</td>
-                                <td>{{ exercise[10] }}</td>
-                                <td>{{ exercise[11] }}</td>
-                            </tr>
-
-                            <tr class="table-primary">
-                                <th>Reps</th>
-                                <th>Weight</th>
-                                <th>RPE</th>
-                            </tr>
-                             {% for setlist in sets %}
-                                {% for x in setlist %}
-                                    {% if x[1] == exercise[1] %}
-                                        <tr>
-                                            <td>{{ x[2] }}</td>
-                                            <td>{{ x[3] }}</td>
-                                            <td>{{ x[4] }}</td>
-                                        </tr>
-                                    {% endif %}
-                                {% endfor %}
-                            {% endfor %}
-                        {% endif %}
-                    {% endfor %}
-                </table>
-            </div>
-        {% endfor %}
+<div class="jumbotron">
+    <h2 class="display-4 text-center">Welcome, {{ session.user }}</h2>
+    <h5 class="text-center">To log a session, click <a href="{{ url_for('log1') }}">here</a></h5>
+    <a href="{{ url_for('logout') }}">Log out</a>
 </div>
 
+<table class="session-table table table-bordered">
+    <thead class="thead-dark">
+        <tr class="text-center">
+            <th>Session Name</th>
+            <th>Session Time in Minutes</th>
+            <th>Session RPE</th>
+            <th>Session Workload</th>
+        </tr>
+    </thead>
+
+    <tr>
+        <table class="exercise exercise-table table table-bordered">
+            <tr>
+                <td>High Bar Stiff Bar Squat</td>
+                <td>
+                    <table class="sets-table table table-bordered">
+                        <tr>
+                            <td>Reps</td>
+                            <td>Weight</td>
+                            <td>RPE</td>
+                        </tr>
+                        <tr>
+                            <td>10</td>
+                            <td>100</td>
+                            <td>8</td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+
+        </table>
+    </tr>
+
+</table>
+
+
+
 {% endblock %}
+
+
