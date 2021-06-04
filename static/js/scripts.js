@@ -170,15 +170,15 @@ function createForm(sets) {
     tbl = "<table>"+
             "<tr>"+
                 "<th>Reps</th>"+
-                "<th>Weight</th>"+
+                "<th>Weight (in KG)</th>"+
                 "<th>RPE</th>"+
             "</tr>";
             
     for (i = 1; i <= sets; i++){
         tbl += "<tr>"+
-                    "<td><input type='text' name='reps' class='form-control required'></td>"+
-                    "<td><input type='text' name ='weight' class='form-control required'></td>"+
-                    "<td><input type='text' name='rpe' class='form-control required'></td>"+
+                    "<td><input type='number' name='reps' class='form-control required'></td>"+
+                    "<td><input type='number' name ='weight' class='form-control required'></td>"+
+                    "<td><input type='number' name='rpe' class='form-control required'></td>"+
                 "</tr>";
     }
     tbl += "</table>";

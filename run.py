@@ -399,6 +399,17 @@ def logout():
     return redirect(url_for("index"))
 
 
+# @app.route("/addExercise/<SessionId>")
+# def add_exercise(SessionId):
+#     connection = pymysql.connect(
+#             host='localhost', user='root', passwd='', db='gymdb')
+#     with connection.cursor() as cursor:
+#         cursor.execute('''
+#         DELETE FROM exercise
+#         where ExerciseId = %s''', ExerciseId)
+
+#     flash("Exercise Added to")
+
 if __name__ == "__main__":
     app.run(
         host=os.environ.get("IP"),
