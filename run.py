@@ -348,7 +348,7 @@ def log3():
 def edit_session(SessionId):
     connection = pymysql.connect(
             host='localhost', user='root', passwd='', db='gymdb')
-    
+ 
     if request.method == 'POST':
         sessionname = request.form["session-name"]
         sessiondate = request.form['session-date']
@@ -370,6 +370,20 @@ def edit_session(SessionId):
         session = cursor.fetchone()
         cursor.close()
     return render_template("edit_session.html", session=session)
+
+
+@app.route("/delete_session/<SessionId>")
+def delete_session(SessionId):
+    connection = pymysql.connect(
+            host='localhost', user='root', passwd='', db='gymdb')
+    with connection.cursor() as cursor:
+        cursor.execute('''
+        DELETE from session
+        where SessionId = %s''', SessionId)
+        cursor.close()
+
+    flash("Session successfully deleted")
+    return redirect(url_for("dashboard"))
 
 
 @app.route("/logout", methods=["GET"])

@@ -466,7 +466,7 @@ ALTER TABLE `exercise`
   ADD CONSTRAINT `fk_session` FOREIGN KEY (`SessionId`) REFERENCES `session` (`SessionId`),
   ADD CONSTRAINT `fk_stance` FOREIGN KEY (`StanceWidthId`) REFERENCES `stancewidth` (`StanceWidthId`),
   ADD CONSTRAINT `fk_tempo` FOREIGN KEY (`TempoId`) REFERENCES `tempo` (`TempoId`);
-
+  ON DELETE CASCADE
 --
 -- Constraints for table `session`
 --
@@ -478,6 +478,7 @@ ALTER TABLE `session`
 --
 ALTER TABLE `sets`
   ADD CONSTRAINT `fk_exercise` FOREIGN KEY (`ExerciseId`) REFERENCES `exercise` (`ExerciseId`);
+  ON DELETE CASCADE
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
