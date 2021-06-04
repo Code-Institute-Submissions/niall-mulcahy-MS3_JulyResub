@@ -348,10 +348,26 @@ def log3():
 def edit_session(SessionId):
     connection = pymysql.connect(
             host='localhost', user='root', passwd='', db='gymdb')
+    
+    if request.method == 'POST':
+        sessionname = request.form["session-name"]
+        sessiondate = request.form['session-date']
+        sessiontime = request.form['session-time']
+        sessionrpe = request.form['session-rpe']
+        sessionid = SessionId
+        with connection.cursor() as cursor:
+            cursor.execute("""
+                UPDATE session
+                SET SessionDate=%s, SessionTime=%s, SessionName=%s, SessionRPE=%s
+                WHERE SessionId=%s
+                """, (sessiondate, sessiontime, sessionname, sessionrpe, sessionid))
+            connection.commit()
+            cursor.close()
+            flash("Session Updated")
+            return redirect(url_for("dashboard"))
     with connection.cursor() as cursor:
         cursor.execute("Select * from session where SessionId = %s", SessionId)
         session = cursor.fetchone()
-        print(session)
         cursor.close()
     return render_template("edit_session.html", session=session)
 
