@@ -38,6 +38,7 @@
                             <tr>
                                 <tr class="table-primary"><th colspan="2">Exercise Name</th></tr>
                                 <td class="exercise-row blockquote fs-2" id="exercise-string">{{ exercise[2] }}</td>
+                                <td><a href="{{ url_for('delete_exercise', ExerciseId=exercise[1]) }}" class="btn-sm btn-danger">Delete</a></td>
                             <td>
                                 <table class="sets-table table table-bordered">
                                     <thead>
@@ -67,7 +68,7 @@
                     {% endif %}
                     {% endfor %}
                     {% else %}
-                    <td>You have no exercises for this session!</td>
+                    <td><h4>You have no exercises for this session!</h4></td>
                     {% endif %}
         </table>
         <br>

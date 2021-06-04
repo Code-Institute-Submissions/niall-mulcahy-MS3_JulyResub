@@ -370,28 +370,26 @@ def delete_session(SessionId):
         cursor.execute('''
         DELETE FROM session
         where SessionId = %s''', SessionId)
-        delete = cursor.fetchall()
         cursor.close()
-    with connection.cursor() as cursor:
-        cursor.execute('''
-        Select * FROM session''')
-        sessions = cursor.fetchall()
-        print(delete)
-        print(sessions)
-    with connection.cursor() as cursor:
-        cursor.execute('''
-        Select * FROM exercise''')
-        exercise = cursor.fetchall()
-        print(exercise)
-    with connection.cursor() as cursor:
-        cursor.execute('''
-        Select * FROM sets''')
-        sets = cursor.fetchall()
-        print(sets)
     connection.commit()
 
     flash("Session successfully deleted")
-    return redirect(url_for("index"))
+    return redirect(url_for("dashboard"))
+
+
+@app.route("/delete_exercise/<ExerciseId>")
+def delete_exercise(ExerciseId):
+    connection = pymysql.connect(
+            host='localhost', user='root', passwd='', db='gymdb')
+    with connection.cursor() as cursor:
+        cursor.execute('''
+        DELETE FROM exercise
+        where ExerciseId = %s''', ExerciseId)
+        cursor.close()
+    connection.commit()
+
+    flash("Exercise successfully deleted")
+    return redirect(url_for("dashboard"))
 
 
 @app.route("/logout", methods=["GET"])
