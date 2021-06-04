@@ -344,6 +344,18 @@ def log3():
     return render_template("log3.html", listb=listb, sessiondata=sessiondata, sets=sets)
 
 
+@app.route("/edit_session/<SessionId>", methods=["GET", "POST"])
+def edit_session(SessionId):
+    connection = pymysql.connect(
+            host='localhost', user='root', passwd='', db='gymdb')
+    with connection.cursor() as cursor:
+        cursor.execute("Select * from session where SessionId = %s", SessionId)
+        session = cursor.fetchone()
+        print(session)
+        cursor.close()
+    return render_template("edit_session.html", session=session)
+
+
 @app.route("/logout", methods=["GET"])
 def logout():
     flash("You have been logged out")
