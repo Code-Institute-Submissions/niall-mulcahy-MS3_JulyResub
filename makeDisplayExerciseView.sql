@@ -28,3 +28,4 @@ VIEW `gymdb`.`display_exercise` AS
         LEFT JOIN `gymdb`.`deadliftstance` `d` ON (`e`.`DeadliftStanceId` = `d`.`DeadliftStanceId`))
         LEFT JOIN `gymdb`.`tempo` `o` ON (`e`.`TempoId` = `o`.`TempoId`))
         LEFT JOIN `gymdb`.`stancewidth` `s` ON (`e`.`StanceWidthId` = `s`.`StanceWidthId`));
+

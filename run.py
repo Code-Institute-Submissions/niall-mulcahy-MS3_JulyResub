@@ -71,7 +71,7 @@ def register():
                     connection.commit()
                     cursor.close()
                     session["user"] = request.form.get("Username").lower()
-                    flash("Welcome to your dashboard, {}!".format(username))
+                    flash("Welcome to your dashboard, {}!".format(username).title())
                     return redirect(url_for("dashboard"))
 
     return render_template("register.html")
@@ -368,14 +368,30 @@ def delete_session(SessionId):
             host='localhost', user='root', passwd='', db='gymdb')
     with connection.cursor() as cursor:
         cursor.execute('''
-        Select * FROM session
+        DELETE FROM session
         where SessionId = %s''', SessionId)
         delete = cursor.fetchall()
         cursor.close()
+    with connection.cursor() as cursor:
+        cursor.execute('''
+        Select * FROM session''')
+        sessions = cursor.fetchall()
         print(delete)
+        print(sessions)
+    with connection.cursor() as cursor:
+        cursor.execute('''
+        Select * FROM exercise''')
+        exercise = cursor.fetchall()
+        print(exercise)
+    with connection.cursor() as cursor:
+        cursor.execute('''
+        Select * FROM sets''')
+        sets = cursor.fetchall()
+        print(sets)
+    connection.commit()
 
     flash("Session successfully deleted")
-    return redirect(url_for("dashboard"))
+    return redirect(url_for("index"))
 
 
 @app.route("/logout", methods=["GET"])
