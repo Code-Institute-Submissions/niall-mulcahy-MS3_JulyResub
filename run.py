@@ -35,6 +35,7 @@ def index():
                     cursor.close()
                     if check_password_hash(returnPassword[0][0], inputPassword):
                         session["user"] = request.form.get("Username").lower()
+                        flash("Welcome, {}".format(inputUsername.title()))
                         return redirect(url_for("dashboard"))
                     else:
                         flash("Username or Password incorrect")
@@ -70,8 +71,8 @@ def register():
                     connection.commit()
                     cursor.close()
                     session["user"] = request.form.get("Username").lower()
-                    flash("Registration was successful!")
-                    return redirect(url_for("index"))
+                    flash("Welcome to your dashboard, {}!".format(username))
+                    return redirect(url_for("dashboard"))
 
     return render_template("register.html")
 
@@ -90,15 +91,12 @@ def dashboard():
         with connection.cursor() as cursor:
             cursor.execute("Select * from session where User = %s order by SessionDate DESC", userid)
             sessiondata = cursor.fetchall()
-            print(sessiondata)
             cursor.close()
             usersessions = []
             for i in sessiondata:
                 usersessions.append(i[0])
-            print(usersessions)
             no_duplicates = []
             [no_duplicates.append(n) for n in usersessions if n not in no_duplicates] 
-            print(no_duplicates)
         exerciselist = []
 
         for x in no_duplicates:
@@ -118,7 +116,6 @@ def dashboard():
                 exercise = cursor.fetchall()
                 exerciselist.append(exercise)
                 cursor.close()
-        print(exerciselist)
         userexercises = []
 
         def Remove(tuples):
@@ -127,9 +124,7 @@ def dashboard():
        
         emptyTupleRemoved = Remove(exerciselist)
         emptyexremovedlist = list([list(x) for x in emptyTupleRemoved])
-        print(emptyexremovedlist)
         for x in emptyexremovedlist:
-            print(x)
             for y in x:
                 list(y)
                 userexercises.append(y)
@@ -137,7 +132,6 @@ def dashboard():
         userExIds = []
         for x in listb:
             userExIds.append(x[1])
-        print(userExIds)
 
         sets = []
         for x in userExIds:
@@ -157,7 +151,6 @@ def log1():
         with connection.cursor() as cursor:
             cursor.execute("SELECT UserId from user where Username = %s", session["user"])
             userid = cursor.fetchall()[0][0]
-            print(userid)
             cursor.close()
         sessionname = request.form["session-name"].title()
         sessiondate = request.form['session-date']
@@ -263,9 +256,7 @@ def log2():
         lists = [list(x) for x in listzip]
         for x in lists:
             x.insert(0, exerciseid)
-        print(lists)
         tuples = tuple([tuple(x) for x in lists])
-        print(tuples)
 
         for x in tuples:
             with connection.cursor() as cursor:
@@ -294,12 +285,11 @@ def log3():
     with connection.cursor() as cursor:
         cursor.execute("Select * from session where User = %s", userid)
         sessiondata = cursor.fetchall()
-        print(sessiondata)
+ 
         cursor.close()
         usersessions = []
         for i in sessiondata:
             usersessions.append(i[0])
-        print(usersessions)
         no_duplicates = []
         [no_duplicates.append(n) for n in usersessions if n not in no_duplicates] 
         print(no_duplicates)
@@ -378,9 +368,11 @@ def delete_session(SessionId):
             host='localhost', user='root', passwd='', db='gymdb')
     with connection.cursor() as cursor:
         cursor.execute('''
-        DELETE from session
+        Select * FROM session
         where SessionId = %s''', SessionId)
+        delete = cursor.fetchall()
         cursor.close()
+        print(delete)
 
     flash("Session successfully deleted")
     return redirect(url_for("dashboard"))

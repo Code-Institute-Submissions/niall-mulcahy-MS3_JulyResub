@@ -42,8 +42,8 @@ CREATE TABLE `barposition` (
 --
 
 INSERT INTO `barposition` (`BarPositionId`, `BarPositionName`) VALUES
-(1, 'Low'),
-(2, 'High'),
+(1, 'Low Bar'),
+(2, 'High Bar'),
 (3, 'Front'),
 (4, 'Zercher');
 
@@ -55,7 +55,7 @@ INSERT INTO `barposition` (`BarPositionId`, `BarPositionName`) VALUES
 
 CREATE TABLE `bartype` (
   `BarTypeId` tinyint(3) UNSIGNED NOT NULL,
-  `BarTypeName` varchar(20) NOT NULL
+  `BarTypeName` varchar(30) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
@@ -63,12 +63,12 @@ CREATE TABLE `bartype` (
 --
 
 INSERT INTO `bartype` (`BarTypeId`, `BarTypeName`) VALUES
-(1, 'Stiff'),
-(2, 'Squat'),
-(3, 'Deadlift'),
-(4, 'Trap'),
-(5, 'Football'),
-(6, 'Safety Squat');
+(1, 'Stiff Bar'),
+(2, 'Squat Bar'),
+(3, 'Deadlift Bar'),
+(4, 'Trap Bar'),
+(5, 'Football Bar'),
+(6, 'Safety Squat Bar');
 
 -- --------------------------------------------------------
 
@@ -155,7 +155,7 @@ INSERT INTO `exercisetype` (`ExerciseTypeId`, `ExerciseTypeName`, `DisplayOrder`
 
 CREATE TABLE `gripwidth` (
   `GripWidthId` tinyint(3) UNSIGNED NOT NULL,
-  `GripWidthName` varchar(20) NOT NULL
+  `GripWidthName` varchar(30) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
@@ -163,7 +163,7 @@ CREATE TABLE `gripwidth` (
 --
 
 INSERT INTO `gripwidth` (`GripWidthId`, `GripWidthName`) VALUES
-(1, 'Competition'),
+(1, 'Competition Grip'),
 (2, 'Close Grip'),
 (3, 'Wide Grip');
 
@@ -183,9 +183,10 @@ CREATE TABLE `pin` (
 --
 
 INSERT INTO `pin` (`PinId`, `PinHeight`) VALUES
-(1, 'Low'),
-(2, 'Medium'),
-(3, 'High');
+(1, 'No Pin'),
+(2, 'Low Pin'),
+(3, 'Medium Pin'),
+(4, 'High Pin');
 
 -- --------------------------------------------------------
 
@@ -232,7 +233,7 @@ CREATE TABLE `sets` (
 
 CREATE TABLE `stancewidth` (
   `StanceWidthId` tinyint(3) UNSIGNED NOT NULL,
-  `StanceWidthName` varchar(20) NOT NULL
+  `StanceWidthName` varchar(30) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
@@ -240,9 +241,9 @@ CREATE TABLE `stancewidth` (
 --
 
 INSERT INTO `stancewidth` (`StanceWidthId`, `StanceWidthName`) VALUES
-(1, 'Competition'),
-(2, 'Narrow'),
-(3, 'Wide');
+(1, 'Competition Stance'),
+(2, 'Narrow Stance'),
+(3, 'Wide Stance');
 
 -- --------------------------------------------------------
 
@@ -252,7 +253,7 @@ INSERT INTO `stancewidth` (`StanceWidthId`, `StanceWidthName`) VALUES
 
 CREATE TABLE `tempo` (
   `TempoId` smallint(5) UNSIGNED NOT NULL,
-  `TempoType` char(3) NOT NULL
+  `TempoType` char(4) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
@@ -260,11 +261,12 @@ CREATE TABLE `tempo` (
 --
 
 INSERT INTO `tempo` (`TempoId`, `TempoType`) VALUES
-(1, '210'),
-(2, '310'),
-(3, '320'),
-(4, '510'),
-(5, '303');
+(1, 'None'),
+(2, '210'),
+(3, '310'),
+(4, '320'),
+(5, '510'),
+(6, '303');
 
 -- --------------------------------------------------------
 
@@ -463,20 +465,19 @@ ALTER TABLE `exercise`
   ADD CONSTRAINT `fk_extype` FOREIGN KEY (`ExerciseTypeId`) REFERENCES `exercisetype` (`ExerciseTypeId`),
   ADD CONSTRAINT `fk_grip` FOREIGN KEY (`GripWidthId`) REFERENCES `gripwidth` (`GripWidthId`),
   ADD CONSTRAINT `fk_pin` FOREIGN KEY (`PinId`) REFERENCES `pin` (`PinId`),
-  ADD CONSTRAINT `fk_session` FOREIGN KEY (`SessionId`) REFERENCES `session` (`SessionId`),
+  ADD CONSTRAINT `fk_session` FOREIGN KEY (`SessionId`) REFERENCES `session` (`SessionId`) ON DELETE CASCADE,
   ADD CONSTRAINT `fk_stance` FOREIGN KEY (`StanceWidthId`) REFERENCES `stancewidth` (`StanceWidthId`),
   ADD CONSTRAINT `fk_tempo` FOREIGN KEY (`TempoId`) REFERENCES `tempo` (`TempoId`);
 --
 -- Constraints for table `session`
 --
 ALTER TABLE `session`
-  ADD CONSTRAINT `fk_user` FOREIGN KEY (`User`) REFERENCES `user` (`UserId`);
-
+  ADD CONSTRAINT `fk_user` FOREIGN KEY (`User`) REFERENCES `user` (`UserId`) ON DELETE CASCADE;
 --
 -- Constraints for table `sets`
 --
 ALTER TABLE `sets`
-  ADD CONSTRAINT `fk_exercise` FOREIGN KEY (`ExerciseId`) REFERENCES `exercise` (`ExerciseId`);
+  ADD CONSTRAINT `fk_exercise` FOREIGN KEY (`ExerciseId`) REFERENCES `exercise` (`ExerciseId`) ON DELETE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

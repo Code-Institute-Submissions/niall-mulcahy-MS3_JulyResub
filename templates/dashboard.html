@@ -1,12 +1,9 @@
 {% extends "base.html" %}
 {% block content %}
-<div class="jumbotron">
-    <h2 class="display-4 text-center">Welcome, {{ session.user }}</h2>
-    <h5 class="text-center">To log a session, click <a href="{{ url_for('log1') }}">here</a></h5>
-    <a href="{{ url_for('logout') }}">Log out</a>
-</div>
 
-    <div class="container">
+
+
+    <div class="container mt-2">
     {% set x = sessiondata %}
     {% set y = listb %}
     {% if x|length %}
