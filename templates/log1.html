@@ -26,9 +26,13 @@
         <small id="timeHelp" class="form-text text-muted">Rate how difficult the session was overall on this scale.
             Allow for 15-20 minutes to pass after the session before filling out this field.
         </small>
-        <div class="row justify-content-center"><button type="submit" class="btn btn-primary mt-2 mx-auto">Next</button></div>
+        <div class="row justify-content-center mt-3">
+            <a href="{{ url_for('dashboard') }}" class="btn btn-danger mt-2 mx-auto">Cancel</a>
+            <button type="submit" class="btn btn-primary mt-2 mx-auto">Next</button>
+        </div>
+        <br>
     </form>
 
-    <a href="{{ url_for('log2') }}">Link to log2</a>
+
 </div>
 {% endblock %}

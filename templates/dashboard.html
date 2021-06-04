@@ -26,7 +26,7 @@
                 <td>{{ session[6] }}</td>
                 <td>
                     <a href="{{ url_for('edit_session', SessionId=session[0]) }}" class="btn btn-primary">Edit</a>
-                    <a href="{{ url_for('delete_session', SessionId=session[0]) }}">Delete</a>
+                    <a href="{{ url_for('delete_session', SessionId=session[0]) }}" class="btn btn-danger">Delete</a>
                 </td>
             </tr>
             
@@ -75,7 +75,9 @@
         <br>
     {% endfor %}
     {% else %}
-        <h2 class="text-center">You have no sessions, to log a new session click <a href="{{url_for('log1') }}">here</a></h2>
+        <div class="jumbotron mt-4">
+            <h2 class="text-center">You have no sessions, to log a new session click <a href="{{url_for('log1') }}">here</a></h2>
+        </div>
     {% endif %}
 </div>
 <a href="{{ url_for('log3') }}">Test Page</a>
