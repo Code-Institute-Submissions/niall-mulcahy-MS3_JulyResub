@@ -35,7 +35,7 @@ def index():
                     cursor.close()
                     if check_password_hash(returnPassword[0][0], inputPassword):
                         session["user"] = request.form.get("Username").lower()
-                        flash("Welcome, {}".format(inputUsername.title()))
+                        flash("{} is logged in".format(inputUsername.title()))
                         return redirect(url_for("dashboard"))
                     else:
                         flash("Username or Password incorrect")
@@ -263,7 +263,6 @@ def log2():
                 cursor.execute("INSERT INTO sets (ExerciseId, Reps, Weight, RPE) VALUES (%s, %s, %s, %s)", x)
                 connection.commit()
                 cursor.close()
-    flash("Sets have been logged")
 
     return render_template(
         "log2.html", exercisetype=exercisetype, stancewidth=stancewidth,

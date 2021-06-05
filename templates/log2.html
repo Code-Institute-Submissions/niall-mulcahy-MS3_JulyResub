@@ -5,6 +5,7 @@
     <div class="row justify-content-center">
         <h2 class="display-4 mt-2">Exercise Entry</h2>
     </div>
+    
 
     <form class="card-body" action="" method="POST" id="exerciseform">
         <div class="form-group">
@@ -103,7 +104,10 @@
                 <input class="form-control" type="number" id="setnumber" name="setnumber">
             </div>
 
-            <div class="btn btn-primary mx-auto" id="okay-button">Okay</div>
+            <div class="">
+                <a class="btn btn-primary mx-auto mt-2" id="okay-button" href="{{ url_for('dashboard') }}">Okay</a>
+                <a class="btn btn-success text-center mt-2" href="{{ url_for('dashboard') }}">Finished Session</a>
+            </div>
 
             <div id="reps-counter" class="mx-auto mb-3 justify-content-center"></div>
 
@@ -111,7 +115,8 @@
                 <input type="submit" class="btn btn-primary" value="Add" id="set-input-button">
             </div>
 
-            <div class="btn btn-success text-center mt-2" id="finished-button"><a href="{{ url_for('dashboard') }}">Finished</a></div>
         </form>
+        
+       
 
 {% endblock %}

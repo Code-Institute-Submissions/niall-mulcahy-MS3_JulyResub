@@ -10117,6 +10117,7 @@ footer.footer {
     background: url("../assets/img/home-image-2.jpeg") no-repeat center center;
 }
 
+
 #squat-section {
     display: none;
 }
@@ -10145,4 +10146,25 @@ footer.footer {
 
 .table-font {
     font-size: larger;
+}
+
+header.masthead-dash {
+  position: relative;
+  background-color: #343a40;
+  background: url("../assets/img/powerlifter-dash.jpg") no-repeat center center;
+  background-size: cover;
+  padding-top: 8rem;
+  padding-bottom: 8rem;
+}
+header.masthead-dash .overlay {
+  position: absolute;
+  background-color: #212529;
+  height: 100%;
+  width: 100%;
+  top: 0;
+  left: 0;
+  opacity: 0.8;
+}
+header.masthead-dash h1 {
+  font-size: 2rem;
 }
