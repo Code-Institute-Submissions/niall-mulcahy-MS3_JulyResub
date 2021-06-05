@@ -31,6 +31,9 @@
             {% if session.user %}
                 <a class="btn btn-primary" href="{{ url_for('log1') }}">Log Session</a>
                 <a class="btn btn-primary" href="{{ url_for('logout') }}">Sign Out</a>
+                {% if session.user|lower == "admin"|lower %}
+                    <a class="btn btn-primary" href="{{ url_for('admin_dash') }}">Admin Dashboard</a>
+                {% endif %}
             {% else %}
                 <a class="btn btn-primary" href="{{ url_for('register') }}">Register</a>
             {% endif %}

@@ -1,0 +1,108 @@
+{% extends "base.html" %}
+{% block content %}
+
+ {% set x = sessions %}
+    {% set y = exercises %}
+    {% if x|length %}
+    {% for session in sessions %}
+    <div class="container mt-2">
+    <table class="session-table table table-bordered">
+        <thead class="thead-dark">
+            <tr class="text-center table-font">
+                <th>User</th>
+                <th>Session Name</th>
+                <th>Session Date</th>
+                <th>Session Time in Minutes</th>
+                <th>Session RPE</th>
+                <th>Session Workload</th>
+            </tr>
+        </thead>
+            <tr class="text-center table-font">
+                <td>{{ session[11] }}</td>
+                <td>{{ session[4] }}</td>
+                <td>{{ session[2] }}</td>
+                <td>{{ session[3] }}</td>
+                <td>{{ session[5] }}</td>
+                <td>{{ session[6] }}</td>
+                <td>
+                    <a href="{{ url_for('edit_session', SessionId=session[0]) }}" class="btn btn-primary">Edit</a>
+                    <a href="{{ url_for('delete_session', SessionId=session[0]) }}" class="btn btn-danger">Delete</a>
+                </td>
+            </tr>
+            
+            {% if y|length %}
+            {% for exercise in exercises %}
+                {% if session[0] == exercise[0] %}
+                    <tr>
+                        <table class="exercise exercise-table table table-bordered">
+                            <tr>
+                                <tr class="table-primary"><th colspan="2">Exercise Name</th></tr>
+                                <td class="exercise-row blockquote fs-2" id="exercise-string">{{ exercise[2] }}</td>
+                                <td><a href="{{ url_for('delete_exercise', ExerciseId=exercise[1]) }}" class="btn-sm btn-danger">Delete</a></td>
+                            <td>
+                                <table class="sets-table table table-bordered">
+                                    <thead>
+                                        <tr class="table-primary">
+                                            <th>Reps</th>
+                                            <th>Weight</th>
+                                            <th>RPE</th>
+                                        </tr>
+                                    </thead>
+
+                                    {% for set in sets %}
+                                            {% if set[1] == exercise[1] %}
+                                                <tr>
+                                                    <td>{{ set[2] }}</td>
+                                                    <td>{{ set[3] }}</td>
+                                                    <td>{{ set[4] }}</td>
+                                                </tr>
+                                            {% endif %}
+                                    {% endfor %}
+
+                                </table>
+                            </td>
+                            </tr>
+
+                        </table>
+                    </tr>
+                    {% endif %}
+                    {% endfor %}
+                    {% else %}
+                    <td><h4>You have no exercises for this session!</h4></td>
+                    {% endif %}
+        </table>
+        <br>
+        <br>
+        <br>
+    {% endfor %}
+
+        </div>
+{% else %}
+
+    <header class="masthead-dash text-white text-center">
+        <div class="overlay"></div>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-10 col-lg-8 col-xl-7 mx-auto">
+                    <div class="col-12 col-md-9 mb-2 mb-md-0 mx-auto"><h1 class="mb-5">Welcome, {{ session.user }} to your dashboard!</h1></div>
+                </div>
+                <div class="col-12 col-md-9 mb-2 mb-md-0 mx-auto"><h2 class="mb-5">This is where your previous training sessions will be displayed!</h2></div>
+            </div>
+
+            <div class="col-12 col-md-9 mb-2 mb-md-0 mx-auto"><h3>To log your first training session click <a href="{{ url_for('log1') }}">here</a> or else click the button at the top of the page</h3></div>
+            <br>
+        </div>
+    </header>
+
+    
+
+        
+{% endif %}
+
+{% endblock %}
+
+                                            <tr>
+                                                <td>{{ x[2] }}</td>
+                                                <td>{{ x[3] }}</td>
+                                                <td>{{ x[4] }}</td>
+                                            </tr>
