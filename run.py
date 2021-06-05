@@ -413,7 +413,7 @@ def admin_dash():
                 host='localhost', user='root', passwd='', db='gymdb')
         
         with connection.cursor() as cursor:
-            cursor.execute("select * from session INNER JOIN user on session.User = user.UserId")
+            cursor.execute("select * from session INNER JOIN user on session.User = user.UserId ORDER BY SessionId DESC")
             sessions = cursor.fetchall()
             cursor.close()
         with connection.cursor() as cursor:
