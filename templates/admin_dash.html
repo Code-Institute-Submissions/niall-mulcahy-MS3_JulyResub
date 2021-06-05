@@ -18,7 +18,7 @@
             </tr>
         </thead>
             <tr class="text-center table-font">
-                <td>{{ session[11] }}</td>
+                <td><a data-toggle="collapse" href=".exercise">{{ session[11] }}</a></td>
                 <td>{{ session[4] }}</td>
                 <td>{{ session[2] }}</td>
                 <td>{{ session[3] }}</td>
@@ -33,7 +33,7 @@
             {% if y|length %}
             {% for exercise in exercises %}
                 {% if session[0] == exercise[0] %}
-                    <tr>
+                    <tr class="collapse exercise">
                         <table class="exercise exercise-table table table-bordered">
                             <tr>
                                 <tr class="table-primary"><th colspan="2">Exercise Name</th></tr>
