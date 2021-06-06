@@ -4,12 +4,15 @@ from werkzeug.security import generate_password_hash, check_password_hash
 import pymysql
 import pymysql.cursors
 import datetime
+from dotenv import load_dotenv
 if os.path.exists("env.py"):
     import env
 
+load_dotenv()
+
 
 app = Flask(__name__)
-app.secret_key = 'secret_key'
+app.secret_key = os.getenv('SECRET_KEY')
 
 # Main Home Page route
 @app.route("/")
@@ -20,7 +23,8 @@ def index():
         inputUsername = request.form['Username'].lower()
         inputPassword = request.form['Password1']
         connection = pymysql.connect(
-            host='localhost', user='root', passwd='', db='gymdb')
+            host=os.getenv('DBHOST'), user=os.getenv('DBUSER'),
+            passwd=os.getenv('DBPASSWORD'), db=os.getenv('DBNAME'))
 
         # returning the username from the database
         with connection.cursor() as cursor:
@@ -67,7 +71,8 @@ def register():
 
         # connecting to the db
         connection = pymysql.connect(
-            host='localhost', user='root', passwd='', db='gymdb')
+            host=os.getenv('DBHOST'), user=os.getenv('DBUSER'),
+            passwd=os.getenv('DBPASSWORD'), db=os.getenv('DBNAME'))
         
         # checking the db to see if the username or email have been used
         with connection.cursor() as cursor:
@@ -81,7 +86,8 @@ def register():
             else:
                 print('adding user to db')
                 connection = pymysql.connect(
-                    host='localhost', user='root', passwd='', db='gymdb')
+                    host=os.getenv('DBHOST'), user=os.getenv('DBUSER'),
+                    passwd=os.getenv('DBPASSWORD'), db=os.getenv('DBNAME'))
                 with connection.cursor() as cursor:
                     cursor.execute("Insert into user (FirstName, LastName, Email, Username, Password) Values (%s, %s, %s, %s, %s)", insertRow)
                     connection.commit()
@@ -109,7 +115,7 @@ def dashboard():
 
         # This block finds all the ssessions completed by this user
         with connection.cursor() as cursor:
-            cursor.execute("Select * from session where User = %s order by SessionDate DESC", userid)
+            cursor.execute("Select * from session where User = %s order by SessionId DESC", userid)
             sessiondata = cursor.fetchall()
             cursor.close()
 
@@ -120,7 +126,7 @@ def dashboard():
             no_duplicates = []
             [no_duplicates.append(n) for n in usersessions if n not in no_duplicates] 
 
-        # Here I created an empty list to append the display_exercise results 
+        # Here I created an empty list to append the display_exercise results
         exerciselist = []
         for x in no_duplicates:
             with connection.cursor() as cursor:
@@ -178,7 +184,9 @@ def dashboard():
 def log1():
     # This page was used to log basic session data
     if request.method == 'POST':
-        connection = pymysql.connect(host='localhost', user='root', passwd='', db='gymdb')
+        connection = pymysql.connect(
+            host=os.getenv('DBHOST'), user=os.getenv('DBUSER'),
+            passwd=os.getenv('DBPASSWORD'), db=os.getenv('DBNAME'))
 
         # This found the user id for this user from the db
         with connection.cursor() as cursor:
@@ -206,7 +214,8 @@ def log1():
 @app.route("/log2", methods=["GET", "POST"])
 def log2():
     connection = pymysql.connect(
-            host='localhost', user='root', passwd='', db='gymdb')
+            host=os.getenv('DBHOST'), user=os.getenv('DBUSER'),
+            passwd=os.getenv('DBPASSWORD'), db=os.getenv('DBNAME'))
     
     # This is the exercise input section
     # These cursors all return the various
@@ -334,7 +343,8 @@ def log2():
 @app.route("/edit_session/<SessionId>", methods=["GET", "POST"])
 def edit_session(SessionId):
     connection = pymysql.connect(
-            host='localhost', user='root', passwd='', db='gymdb')
+            host=os.getenv('DBHOST'), user=os.getenv('DBUSER'),
+            passwd=os.getenv('DBPASSWORD'), db=os.getenv('DBNAME'))
 
     if request.method == 'POST':
         sessionname = request.form["session-name"]
@@ -364,7 +374,8 @@ def edit_session(SessionId):
 @app.route("/delete_session/<SessionId>")
 def delete_session(SessionId):
     connection = pymysql.connect(
-            host='localhost', user='root', passwd='', db='gymdb')
+        host=os.getenv('DBHOST'), user=os.getenv('DBUSER'),
+        passwd=os.getenv('DBPASSWORD'), db=os.getenv('DBNAME'))
 
     # This deletes the session, the associated exercises
     # and all sets inputted related to those exercises
@@ -386,7 +397,8 @@ def delete_session(SessionId):
 @app.route("/delete_exercise/<ExerciseId>")
 def delete_exercise(ExerciseId):
     connection = pymysql.connect(
-            host='localhost', user='root', passwd='', db='gymdb')
+        host=os.getenv('DBHOST'), user=os.getenv('DBUSER'),
+        passwd=os.getenv('DBPASSWORD'), db=os.getenv('DBNAME'))
     with connection.cursor() as cursor:
         cursor.execute('''
         DELETE FROM exercise
@@ -410,14 +422,15 @@ def logout():
 def admin_dash():
     if session["user"]:
         connection = pymysql.connect(
-                host='localhost', user='root', passwd='', db='gymdb')
+            host=os.getenv('DBHOST'), user=os.getenv('DBUSER'),
+            passwd=os.getenv('DBPASSWORD'), db=os.getenv('DBNAME'))
         
         with connection.cursor() as cursor:
             cursor.execute("select * from session INNER JOIN user on session.User = user.UserId ORDER BY SessionId DESC")
             sessions = cursor.fetchall()
             cursor.close()
         with connection.cursor() as cursor:
-            cursor.execute('''SELECT SessionId, ExerciseId, 
+            cursor.execute('''SELECT SessionId, ExerciseId,
                                     CONCAT(ExerciseTypeName, 
                                     IF(BarTypeName is not null and BarTypeName != '', CONCAT(', ', BarTypeName), ''),
                                     IF(BarPositionName is not null and BarPositionName != '', CONCAT(', ', BarPositionName), ''),
