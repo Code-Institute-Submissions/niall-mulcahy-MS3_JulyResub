@@ -152,6 +152,11 @@ exerciseType.onchange = function() {
         }
     }
 
+okayButton = document.getElementById("okay-button");
+setInputButton = document.getElementById("set-input-button");
+finishedButton = document.getElementById("finished-button");
+
+
 let setnumber = document.getElementById("setnumber");
 setnumber.onchange = function () {
     sets = setnumber.value;
@@ -186,12 +191,8 @@ function createForm(sets) {
     $("#reps-counter").append(tbl);
 }
 
-okayButton = document.getElementById("okay-button");
-setInputButton = document.getElementById("set-input-button");
-finishedButton = document.getElementById("finished-button");
 
 okayButton.onclick = function() {
     setInputButton.style.display = "block";
     finishedButton.style.display = "block";
 }
-

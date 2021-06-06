@@ -145,25 +145,31 @@ def dashboard():
             with connection.cursor() as cursor:
                 cursor.execute('''SELECT SessionId, ExerciseId, 
                                     CONCAT(ExerciseTypeName,
-                                    IF(BarTypeName is not null and BarTypeName != '',
+                                    IF(BarTypeName is not null
+                                    and BarTypeName != '',
                                     CONCAT(', ', BarTypeName), ''),
-                                    IF(BarPositionName is not null and BarPositionName != '',
+                                    IF(BarPositionName is not null
+                                    and BarPositionName != '',
                                     CONCAT(', ', BarPositionName), ''),
-                                    IF(PinHeight is not null and PinHeight <> '' ,
+                                    IF(PinHeight is not null
+                                    and PinHeight <> '' ,
                                     CONCAT(', ', PinHeight), ''),
                                     IF(SnatchGrip = 1,', Snatch Grip', ''),
                                     IF(Belt is null, '', IF(Belt = 0, ',
                                     Beltless' , ', With Belt')),
-                                    IF(GripWidthName is not null and GripWidthName != '',
+                                    IF(GripWidthName is not null
+                                    and GripWidthName != '',
                                     CONCAT(', ', GripWidthName), ''),
-                                    IF(StanceWidthName is not null and StanceWidthName != '',
+                                    IF(StanceWidthName is not null
+                                    and StanceWidthName != '',
                                     CONCAT(', ', StanceWidthName), ''),
                                     IF(Pause is not null and Pause <> '' ,
                                     CONCAT(', ', Pause), ''),
                                     IF(TempoType != '',
                                     CONCAT(', Tempo ', TempoType), ''))
                                     as ExerciseTextualDescription
-                                    FROM gymdb.display_exercise where SessionId = %s''', x)
+                                    FROM gymdb.display_exercise
+                                    where SessionId = %s''', x)
                 exercise = cursor.fetchall()
                 exerciselist.append(exercise)
                 cursor.close()
@@ -173,7 +179,7 @@ def dashboard():
         def Remove(tuples):
             tuples = [t for t in tuples if t]
             return tuples
-       
+  
         # I removed empty tuples from the list and
         # converted the remaining tuples to lists
         # This block allowed me to get the list
@@ -194,13 +200,15 @@ def dashboard():
         sets = []
         for x in userExIds:
             with connection.cursor() as cursor:
-                cursor.execute("Select * from sets where ExerciseId = %s", x)
+                cursor.execute(
+                    '''Select * from sets
+                    where ExerciseId = %s''', x)
                 settuple = cursor.fetchall()
                 sets.append(settuple)
                 cursor.close()
     return render_template(
             "dashboard.html", userExerciseList=userExerciseList,
-                sessiondata=sessiondata, sets=sets)
+            sessiondata=sessiondata, sets=sets)
 
 
 @app.route("/log1", methods=["GET", "POST"])
@@ -213,7 +221,9 @@ def log1():
 
         # This found the user id for this user from the db
         with connection.cursor() as cursor:
-            cursor.execute("SELECT UserId from user where Username = %s", session["user"])
+            cursor.execute(
+                '''SELECT UserId from user where
+                Username = %s''', session["user"])
             userid = cursor.fetchall()[0][0]
             cursor.close()
 
@@ -222,11 +232,16 @@ def log1():
         sessiondate = request.form['session-date']
         sessiontime = request.form['session-time']
         sessionrpe = request.form['session-rpe']
-        sessioninput = (userid, sessiondate, sessiontime, sessionname, sessionrpe)
+        sessioninput = (
+            userid, sessiondate, sessiontime,
+            sessionname, sessionrpe)
 
         # This line inputs the session data into the db
         with connection.cursor() as cursor:
-            cursor.execute("INSERT INTO session (User, SessionDate, SessionTime, SessionName, SessionRPE) Values (%s, %s, %s, %s, %s)", sessioninput)
+            cursor.execute(
+                '''INSERT INTO session (User, SessionDate,
+                SessionTime, SessionName, SessionRPE) Values (
+                    %s, %s, %s, %s, %s)''', sessioninput)
             connection.commit()
             cursor.close()
             flash("Session Created")
@@ -239,13 +254,14 @@ def log2():
     connection = pymysql.connect(
             host=os.getenv('DBHOST'), user=os.getenv('DBUSER'),
             passwd=os.getenv('DBPASSWORD'), db=os.getenv('DBNAME'))
-    
+
     # This is the exercise input section
     # These cursors all return the various
     # exercise parameters to allow me to populate
     # the html form
     with connection.cursor() as cursor:
-        sql = ('select * from exercisetype order by DisplayOrder, ExerciseTypeName')
+        sql = ('''select * from exercisetype
+        order by DisplayOrder, ExerciseTypeName''')
         cursor.execute(sql)
         exercisetype = cursor.fetchall()
         cursor.close()
@@ -290,11 +306,15 @@ def log2():
     # This works because the session was just created
     if request.method == 'POST':
         with connection.cursor() as cursor:
-            cursor.execute("SELECT UserId from user where Username = %s", session["user"])
+            cursor.execute(
+                '''SELECT UserId from user
+                where Username = %s''', session["user"])
             userid = cursor.fetchall()[0][0]
             cursor.close()
         with connection.cursor() as cursor:
-            cursor.execute("SELECT MAX(SessionId) as max_SessionId from session where User = %s", userid)
+            cursor.execute(
+                '''SELECT MAX(SessionId) as max_SessionId
+                from session where User = %s''', userid)
             sessionid = cursor.fetchall()[0][0]
             cursor.close()
 
@@ -312,11 +332,20 @@ def log2():
         snatchgripin = request.form.get('snatchgrip')
 
         # I create this tuple to insert into the db
-        exerciseinput = (sessionid, exercisetypeid, stancewidthid, gripwidthid, barpositionid, bartypeid, beltin, tempoid, pausein, pinid, deadliftstanceid, snatchgripin)
+        exerciseinput = (
+            sessionid, exercisetypeid, stancewidthid, gripwidthid,
+            barpositionid, bartypeid, beltin, tempoid, pausein,
+            pinid, deadliftstanceid, snatchgripin)
 
         with connection.cursor() as cursor:
             cursor.execute(
-                "INSERT INTO exercise (SessionId, ExerciseTypeId, StanceWidthId, GripWidthId, BarPositionId, BarTypeId, Belt, TempoId, Pause, PinId, DeadliftStanceId, SnatchGrip) values (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)", exerciseinput)
+                '''INSERT INTO exercise (
+                    SessionId, ExerciseTypeId, StanceWidthId,
+                    GripWidthId, BarPositionId, BarTypeId,
+                    Belt, TempoId, Pause, PinId, 
+                    DeadliftStanceId, SnatchGrip) values (
+                        %s, %s, %s, %s, %s, %s,
+                        %s, %s, %s, %s, %s, %s)''', exerciseinput)
             connection.commit()
             cursor.close()
         flash("exercise has been logged")
@@ -324,7 +353,9 @@ def log2():
         # Here i get the highest exercise id to
         # use for the set insert
         with connection.cursor() as cursor:
-            cursor.execute("SELECT MAX(ExerciseId) as max_ExerciseId from exercise where SessionId = %s", sessionid)
+            cursor.execute(
+                '''SELECT MAX(ExerciseId) as max_ExerciseId from
+                exercise where SessionId = %s''', sessionid)
             exerciseid = cursor.fetchall()[0][0]
             cursor.close()
         # took out request.form.get
@@ -350,13 +381,17 @@ def log2():
 
         for x in tuples:
             with connection.cursor() as cursor:
-                cursor.execute("INSERT INTO sets (ExerciseId, Reps, Weight, RPE) VALUES (%s, %s, %s, %s)", x)
+                cursor.execute(
+                    '''INSERT INTO sets (
+                        ExerciseId, Reps, Weight, RPE) VALUES (
+                            %s, %s, %s, %s)''', x)
                 connection.commit()
                 cursor.close()
 
     # These values are populating the exercise input form
     return render_template(
-        "log2.html", exercisetype=exercisetype, stancewidth=stancewidth,
+        "log2.html", exercisetype=exercisetype,
+        stancewidth=stancewidth,
         barposition=barposition, bartype=bartype,
         tempo=tempo, pin=pin, gripwidth=gripwidth,
         deadliftstance=deadliftstance)
@@ -378,9 +413,12 @@ def edit_session(SessionId):
         with connection.cursor() as cursor:
             cursor.execute("""
                 UPDATE session
-                SET SessionDate=%s, SessionTime=%s, SessionName=%s, SessionRPE=%s
+                SET SessionDate=%s, SessionTime=%s,
+                SessionName=%s, SessionRPE=%s
                 WHERE SessionId=%s
-                """, (sessiondate, sessiontime, sessionname, sessionrpe, sessionid))
+                """, (
+                    sessiondate, sessiontime, sessionname,
+                    sessionrpe, sessionid))
             connection.commit()
             cursor.close()
             flash("Session Updated")
@@ -388,7 +426,9 @@ def edit_session(SessionId):
 
     # This allowed me to return the session data
     with connection.cursor() as cursor:
-        cursor.execute("Select * from session where SessionId = %s", SessionId)
+        cursor.execute(
+            '''Select * from session where
+            SessionId = %s''', SessionId)
         session = cursor.fetchone()
         cursor.close()
     return render_template("edit_session.html", session=session)
@@ -447,24 +487,41 @@ def admin_dash():
         connection = pymysql.connect(
             host=os.getenv('DBHOST'), user=os.getenv('DBUSER'),
             passwd=os.getenv('DBPASSWORD'), db=os.getenv('DBNAME'))
-        
+
         with connection.cursor() as cursor:
-            cursor.execute("select * from session INNER JOIN user on session.User = user.UserId ORDER BY SessionId DESC")
+            cursor.execute(
+                '''select * from session INNER JOIN user
+                on session.User = user.UserId
+                ORDER BY SessionId DESC''')
             sessions = cursor.fetchall()
             cursor.close()
         with connection.cursor() as cursor:
             cursor.execute('''SELECT SessionId, ExerciseId,
-                                    CONCAT(ExerciseTypeName, 
-                                    IF(BarTypeName is not null and BarTypeName != '', CONCAT(', ', BarTypeName), ''),
-                                    IF(BarPositionName is not null and BarPositionName != '', CONCAT(', ', BarPositionName), ''),
-                                    IF(PinHeight is not null and PinHeight <> '' , CONCAT(', ', PinHeight), ''),
+                                    CONCAT(ExerciseTypeName,
+                                    IF(BarTypeName is not null
+                                    and BarTypeName != '',
+                                    CONCAT(', ', BarTypeName), ''),
+                                    IF(BarPositionName is not null
+                                    and BarPositionName != '',
+                                    CONCAT(', ', BarPositionName), ''),
+                                    IF(PinHeight is not null
+                                    and PinHeight <> '' ,
+                                    CONCAT(', ', PinHeight), ''),
                                     IF(SnatchGrip = 1,', Snatch Grip', ''),
-                                    IF(Belt is null, '', IF(Belt = 0, ', Beltless' , ', With Belt')),
-                                    IF(GripWidthName is not null and GripWidthName != '', CONCAT(', ', GripWidthName), ''),
-                                    IF(StanceWidthName is not null and StanceWidthName != '', CONCAT(', ', StanceWidthName), ''),
-                                    IF(Pause is not null and Pause <> '' , CONCAT(', ', Pause), ''),
-                                    IF(TempoType != '', CONCAT(', Tempo ', TempoType), '')) as ExerciseTextualDescription
-                                    FROM gymdb.display_exercise''')
+                                    IF(Belt is null, '', IF(Belt = 0, ',
+                                    Beltless' , ', With Belt')),
+                                    IF(GripWidthName is not null
+                                    and GripWidthName != '',
+                                    CONCAT(', ', GripWidthName), ''),
+                                    IF(StanceWidthName is not null
+                                    and StanceWidthName != '',
+                                    CONCAT(', ', StanceWidthName), ''),
+                                    IF(Pause is not null and Pause <> '' ,
+                                    CONCAT(', ', Pause), ''),
+                                    IF(TempoType != '',
+                                    CONCAT(', Tempo ', TempoType), ''))
+                                    as ExerciseTextualDescription
+                                    FROM gymdb.display_exercise''')                               
             exercises = cursor.fetchall()
             cursor.close()
         with connection.cursor() as cursor:
@@ -472,7 +529,9 @@ def admin_dash():
             sets = cursor.fetchall()
             cursor.close()
         print(sets)
-        return render_template("admin_dash.html", sessions=sessions, exercises=exercises, sets=sets)
+        return render_template(
+            "admin_dash.html", sessions=sessions,
+            exercises=exercises, sets=sets)
 
 
 if __name__ == "__main__":

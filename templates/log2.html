@@ -111,6 +111,9 @@
             <div class="mx-auto text-center mt-2">
                 <input type="submit" class="btn btn-primary" value="Add" id="set-input-button">
             </div>
+            <div>
+                <a href="{{ url_for('dashboard') }}" onclick="return confirm('Are you sure you want to finish this session?')" class="btn btn-success mt-2">Finish Session</a>
+            </div>
 
         </form>
         
