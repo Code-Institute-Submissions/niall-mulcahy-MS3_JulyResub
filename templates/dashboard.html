@@ -5,7 +5,7 @@
 
     
     {% set x = sessiondata %}
-    {% set y = listb %}
+    {% set y = userExerciseList %}
     {% if x|length %}
     {% for session in sessiondata %}
     <div class="container mt-2">
@@ -32,12 +32,15 @@
             </tr>
             
             {% if y|length %}
-            {% for exercise in listb %}
+            {% for exercise in userExerciseList %}
                 {% if session[0] == exercise[0] %}
                     <tr class="collapse exercise">
                         <table class="exercise exercise-table table table-bordered">
                             <tr>
-                                <tr class="table-primary"><th colspan="2">Exercise Name</th></tr>
+                                <tr class="table-primary">
+                                    <th colspan="2">Exercise Name</th>
+                                </tr>
+
                                 <td class="exercise-row blockquote fs-2" id="exercise-string">{{ exercise[2] }}</td>
                                 <td><a href="{{ url_for('delete_exercise', ExerciseId=exercise[1]) }}" class="btn-sm btn-danger">Delete</a></td>
                             <td>

@@ -44,7 +44,8 @@ def index():
                     cursor.close()
 
                     # unhashing the password and logging the user in if correct
-                    if check_password_hash(returnPassword[0][0], inputPassword):
+                    if check_password_hash(returnPassword[0][0],
+                            inputPassword):
                         session["user"] = request.form.get("Username").lower()
                         flash("{} is logged in".format(inputUsername.title()))
                         return redirect(url_for("dashboard"))
@@ -73,10 +74,12 @@ def register():
         connection = pymysql.connect(
             host=os.getenv('DBHOST'), user=os.getenv('DBUSER'),
             passwd=os.getenv('DBPASSWORD'), db=os.getenv('DBNAME'))
-        
+  
         # checking the db to see if the username or email have been used
         with connection.cursor() as cursor:
-            cursor.execute("Select * from user where Username = %s or Email = %s", checkRow,)
+            cursor.execute('''
+                Select * from user
+                where Username = %s or Email = %s''', checkRow,)
             result = cursor.fetchall()
             cursor.close()
             if result:
@@ -88,12 +91,18 @@ def register():
                 connection = pymysql.connect(
                     host=os.getenv('DBHOST'), user=os.getenv('DBUSER'),
                     passwd=os.getenv('DBPASSWORD'), db=os.getenv('DBNAME'))
+
                 with connection.cursor() as cursor:
-                    cursor.execute("Insert into user (FirstName, LastName, Email, Username, Password) Values (%s, %s, %s, %s, %s)", insertRow)
+                    cursor.execute('''Insert into user(
+                        FirstName, LastName, Email, Username, Password) Values (
+                            %s, %s, %s, %s, %s)''', insertRow)
+
                     connection.commit()
                     cursor.close()
                     session["user"] = request.form.get("Username").lower()
-                    flash("Welcome to your dashboard, {}!".format(username).title())
+                    flash(
+                        "Welcome to your dashboard, {}!".format(
+                            username).title())
                     return redirect(url_for("dashboard"))
 
     return render_template("register.html")
@@ -105,17 +114,20 @@ def dashboard():
     if session["user"]:
         connection = pymysql.connect(
             host='localhost', user='root', passwd='', db='gymdb')
-        
+
         # This block finds the UserId of the logged in user
         with connection.cursor() as cursor:
             cursor.execute(
-                "SELECT UserId from user where Username = %s", session["user"])
+                "SELECT UserId from user where Username = %s", session[
+                    "user"])
             userid = cursor.fetchall()[0][0]
             cursor.close()
 
         # This block finds all the ssessions completed by this user
         with connection.cursor() as cursor:
-            cursor.execute("Select * from session where User = %s order by SessionId DESC", userid)
+            cursor.execute(
+                '''Select * from session
+                where User = %s order by SessionId DESC''', userid)
             sessiondata = cursor.fetchall()
             cursor.close()
 
@@ -124,23 +136,33 @@ def dashboard():
             for i in sessiondata:
                 usersessions.append(i[0])
             no_duplicates = []
-            [no_duplicates.append(n) for n in usersessions if n not in no_duplicates] 
+            [no_duplicates.append(
+                n) for n in usersessions if n not in no_duplicates]
 
         # Here I created an empty list to append the display_exercise results
         exerciselist = []
         for x in no_duplicates:
             with connection.cursor() as cursor:
                 cursor.execute('''SELECT SessionId, ExerciseId, 
-                                    CONCAT(ExerciseTypeName, 
-                                    IF(BarTypeName is not null and BarTypeName != '', CONCAT(', ', BarTypeName), ''),
-                                    IF(BarPositionName is not null and BarPositionName != '', CONCAT(', ', BarPositionName), ''),
-                                    IF(PinHeight is not null and PinHeight <> '' , CONCAT(', ', PinHeight), ''),
+                                    CONCAT(ExerciseTypeName,
+                                    IF(BarTypeName is not null and BarTypeName != '',
+                                    CONCAT(', ', BarTypeName), ''),
+                                    IF(BarPositionName is not null and BarPositionName != '',
+                                    CONCAT(', ', BarPositionName), ''),
+                                    IF(PinHeight is not null and PinHeight <> '' ,
+                                    CONCAT(', ', PinHeight), ''),
                                     IF(SnatchGrip = 1,', Snatch Grip', ''),
-                                    IF(Belt is null, '', IF(Belt = 0, ', Beltless' , ', With Belt')),
-                                    IF(GripWidthName is not null and GripWidthName != '', CONCAT(', ', GripWidthName), ''),
-                                    IF(StanceWidthName is not null and StanceWidthName != '', CONCAT(', ', StanceWidthName), ''),
-                                    IF(Pause is not null and Pause <> '' , CONCAT(', ', Pause), ''),
-                                    IF(TempoType != '', CONCAT(', Tempo ', TempoType), '')) as ExerciseTextualDescription
+                                    IF(Belt is null, '', IF(Belt = 0, ',
+                                    Beltless' , ', With Belt')),
+                                    IF(GripWidthName is not null and GripWidthName != '',
+                                    CONCAT(', ', GripWidthName), ''),
+                                    IF(StanceWidthName is not null and StanceWidthName != '',
+                                    CONCAT(', ', StanceWidthName), ''),
+                                    IF(Pause is not null and Pause <> '' ,
+                                    CONCAT(', ', Pause), ''),
+                                    IF(TempoType != '',
+                                    CONCAT(', Tempo ', TempoType), ''))
+                                    as ExerciseTextualDescription
                                     FROM gymdb.display_exercise where SessionId = %s''', x)
                 exercise = cursor.fetchall()
                 exerciselist.append(exercise)
@@ -162,9 +184,9 @@ def dashboard():
             for y in x:
                 list(y)
                 userexercises.append(y)
-        listb = [list(x) for x in userexercises]
+        userExerciseList = [list(x) for x in userexercises]
         userExIds = []
-        for x in listb:
+        for x in userExerciseList:
             userExIds.append(x[1])
 
         # I used the list of ExIds to find the
@@ -177,7 +199,8 @@ def dashboard():
                 sets.append(settuple)
                 cursor.close()
     return render_template(
-            "dashboard.html", listb=listb, sessiondata=sessiondata, sets=sets)
+            "dashboard.html", userExerciseList=userExerciseList,
+                sessiondata=sessiondata, sets=sets)
 
 
 @app.route("/log1", methods=["GET", "POST"])
