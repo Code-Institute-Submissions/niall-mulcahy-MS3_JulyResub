@@ -169,6 +169,7 @@ setnumber.onchange = function () {
     }
 }
 
+// Idea taken from video found at this link https://www.youtube.com/watch?v=BdsOxKCThhA&t=609s
 function createForm(sets) {
     var tbl = "";
 

@@ -74,7 +74,7 @@ def register():
         connection = pymysql.connect(
             host=os.getenv('DBHOST'), user=os.getenv('DBUSER'),
             passwd=os.getenv('DBPASSWORD'), db=os.getenv('DBNAME'))
-  
+
         # checking the db to see if the username or email have been used
         with connection.cursor() as cursor:
             cursor.execute('''
@@ -342,7 +342,7 @@ def log2():
                 '''INSERT INTO exercise (
                     SessionId, ExerciseTypeId, StanceWidthId,
                     GripWidthId, BarPositionId, BarTypeId,
-                    Belt, TempoId, Pause, PinId, 
+                    Belt, TempoId, Pause, PinId,
                     DeadliftStanceId, SnatchGrip) values (
                         %s, %s, %s, %s, %s, %s,
                         %s, %s, %s, %s, %s, %s)''', exerciseinput)
@@ -521,7 +521,7 @@ def admin_dash():
                                     IF(TempoType != '',
                                     CONCAT(', Tempo ', TempoType), ''))
                                     as ExerciseTextualDescription
-                                    FROM gymdb.display_exercise''')                               
+                                    FROM gymdb.display_exercise''')
             exercises = cursor.fetchall()
             cursor.close()
         with connection.cursor() as cursor:

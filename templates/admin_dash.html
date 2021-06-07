@@ -1,6 +1,8 @@
 {% extends "base.html" %}
 {% block content %}
 
+<!--Check if a session exists for all users, if so loop through them-->
+
  {% set x = sessions %}
     {% set y = exercises %}
     {% if x|length %}
@@ -30,6 +32,7 @@
                 </td>
             </tr>
             
+            <!--Check if an exercise exists, if so check if the session and exercise id are equal, if so loop through them-->
             {% if y|length %}
             {% for exercise in exercises %}
                 {% if session[0] == exercise[0] %}
@@ -48,7 +51,7 @@
                                             <th>RPE</th>
                                         </tr>
                                     </thead>
-
+                                    <!--Loop through sets where setsid = exid -->
                                     {% for set in sets %}
                                             {% if set[1] == exercise[1] %}
                                                 <tr>
@@ -68,6 +71,7 @@
                     {% endif %}
                     {% endfor %}
                     {% else %}
+                    <!--This condition is executed if no exercises exist in a session-->
                     <td><h4>You have no exercises for this session!</h4></td>
                     {% endif %}
         </table>
@@ -78,6 +82,7 @@
 
         </div>
 {% else %}
+<!--This condition is executed if no session exist for a user-->
 
     <header class="masthead-dash text-white text-center">
         <div class="overlay"></div>

@@ -3,7 +3,7 @@
 
 
 
-    
+<!--Check if a session exists for this user, if so loop through them-->   
     {% set x = sessiondata %}
     {% set y = userExerciseList %}
     {% if x|length %}
@@ -31,6 +31,7 @@
                 </td>
             </tr>
             
+            <!--Check if an exercise exists, if so check if the session and exercise id are equal, if so loop through them-->
             {% if y|length %}
             {% for exercise in userExerciseList %}
                 {% if session[0] == exercise[0] %}
@@ -54,7 +55,8 @@
                                     </thead>
                                     {% for setlist in sets %}
                                     {% for x in setlist %}
-                                        {% if x[1] == exercise[1] %}        
+                                        {% if x[1] == exercise[1] %}
+                                        <!--Loop through sets where setsid = exid -->     
                                             <tr>
                                                 <td>{{ x[2] }}</td>
                                                 <td>{{ x[3] }}</td>
