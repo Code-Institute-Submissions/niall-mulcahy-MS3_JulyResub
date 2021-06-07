@@ -1,9 +1,9 @@
 import os
-from flask import Flask, render_template, session, flash, request, url_for, redirect
+from flask import (
+    Flask, render_template, session, flash, request, url_for, redirect)
 from werkzeug.security import generate_password_hash, check_password_hash
 import pymysql
 import pymysql.cursors
-import datetime
 from dotenv import load_dotenv
 if os.path.exists("env.py"):
     import env
@@ -13,6 +13,7 @@ load_dotenv()
 
 app = Flask(__name__)
 app.secret_key = os.getenv('SECRET_KEY')
+
 
 # Main Home Page route
 @app.route("/")
@@ -44,8 +45,8 @@ def index():
                     cursor.close()
 
                     # unhashing the password and logging the user in if correct
-                    if check_password_hash(returnPassword[0][0],
-                            inputPassword):
+                    if check_password_hash(
+                            returnPassword[0][0], inputPassword):
                         session["user"] = request.form.get("Username").lower()
                         flash("{} is logged in".format(inputUsername.title()))
                         return redirect(url_for("dashboard"))
@@ -94,7 +95,8 @@ def register():
 
                 with connection.cursor() as cursor:
                     cursor.execute('''Insert into user(
-                        FirstName, LastName, Email, Username, Password) Values (
+                        FirstName, LastName, Email,
+                        Username, Password) Values (
                             %s, %s, %s, %s, %s)''', insertRow)
 
                     connection.commit()
@@ -143,7 +145,7 @@ def dashboard():
         exerciselist = []
         for x in no_duplicates:
             with connection.cursor() as cursor:
-                cursor.execute('''SELECT SessionId, ExerciseId, 
+                cursor.execute('''SELECT SessionId, ExerciseId,
                                     CONCAT(ExerciseTypeName,
                                     IF(BarTypeName is not null
                                     and BarTypeName != '',
@@ -179,7 +181,7 @@ def dashboard():
         def Remove(tuples):
             tuples = [t for t in tuples if t]
             return tuples
-  
+
         # I removed empty tuples from the list and
         # converted the remaining tuples to lists
         # This block allowed me to get the list
