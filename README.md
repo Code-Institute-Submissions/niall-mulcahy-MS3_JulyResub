@@ -140,6 +140,17 @@ The fix for this bug was to add 'ON DELETE CASCADE' to the sql where the foreign
 - I used [this](https://www.youtube.com/watch?v=BdsOxKCThhA&t=609s) video to help with the javascript code which I wrote to create the sets table on the exercise input form
 
 
+## Testing
+
+### Running the app from scratch
+- The first thing I wanted to do while testing the app was run it from scratch in a new development environment. 
+- So the first thing I did was install the required dependencies which are flask, pymysql and dotenv. I then checked if the app was running and it was. 
+- Next, I ran the sql files to create the database. I installed the gymdb3.sql file first. This file created the database and the tables within it. 
+- Then I ran the makeDisplayExerciseView.sql file to create the display_exercise view. At this point I received an error telling me that the secret key for the app wasn't set. 
+- This shows that the dotenv variables need to be set for every gitpod environment you use if you use this method. 
+- Following this, I revisited the code institute videos regarding the setting of environment variables and realised I was doing it incorrectly. This lead to me creating another env.py file and declaring my environment variables inside it.
+- I repeated the previous steps with the environment variables in a new env.py file and this fixed the issue!
+
 
 
 

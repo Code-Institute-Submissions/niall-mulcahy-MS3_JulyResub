@@ -23,8 +23,8 @@ def index():
         inputUsername = request.form['Username'].lower()
         inputPassword = request.form['Password1']
         connection = pymysql.connect(
-            host=os.getenv('DBHOST'), user=os.getenv('DBUSER'),
-            passwd=os.getenv('DBPASSWORD'), db=os.getenv('DBNAME'))
+            host=os.environ.get('DBHOST'), user=os.environ.get('DBUSER'),
+            passwd=os.environ.get('DBPASSWORD'), db=os.environ.get('DBNAME'))
 
         # returning the username from the database
         with connection.cursor() as cursor:
