@@ -4,11 +4,8 @@ from flask import (
 from werkzeug.security import generate_password_hash, check_password_hash
 import pymysql
 import pymysql.cursors
-from dotenv import load_dotenv
 if os.path.exists("env.py"):
     import env
-
-load_dotenv()
 
 
 app = Flask(__name__)
@@ -24,8 +21,8 @@ def index():
         inputUsername = request.form['Username'].lower()
         inputPassword = request.form['Password1']
         connection = pymysql.connect(
-            host=os.environ.get('DBHOST'), user=os.environ.get('DBUSER'),
-            passwd=os.environ.get('DBPASSWORD'), db=os.environ.get('DBNAME'))
+            host=os.env('DBHOST'), user=os.env('DBUSER'),
+            passwd=os.envi('DBPASSWORD'), db=os.env('DBNAME'))
 
         # returning the username from the database
         with connection.cursor() as cursor:
@@ -73,8 +70,8 @@ def register():
 
         # connecting to the db
         connection = pymysql.connect(
-            host=os.getenv('DBHOST'), user=os.getenv('DBUSER'),
-            passwd=os.getenv('DBPASSWORD'), db=os.getenv('DBNAME'))
+            host=os.env('DBHOST'), user=os.env('DBUSER'),
+            passwd=os.envi('DBPASSWORD'), db=os.env('DBNAME'))
 
         # checking the db to see if the username or email have been used
         with connection.cursor() as cursor:
@@ -90,8 +87,8 @@ def register():
             else:
                 print('adding user to db')
                 connection = pymysql.connect(
-                    host=os.getenv('DBHOST'), user=os.getenv('DBUSER'),
-                    passwd=os.getenv('DBPASSWORD'), db=os.getenv('DBNAME'))
+            host=os.env('DBHOST'), user=os.env('DBUSER'),
+            passwd=os.envi('DBPASSWORD'), db=os.env('DBNAME'))
 
                 with connection.cursor() as cursor:
                     cursor.execute('''Insert into user(
@@ -115,7 +112,8 @@ def dashboard():
     # This page cannot be accessed unless the user is in session
     if session["user"]:
         connection = pymysql.connect(
-            host='localhost', user='root', passwd='', db='gymdb')
+            host=os.env('DBHOST'), user=os.env('DBUSER'),
+            passwd=os.envi('DBPASSWORD'), db=os.env('DBNAME'))
 
         # This block finds the UserId of the logged in user
         with connection.cursor() as cursor:
