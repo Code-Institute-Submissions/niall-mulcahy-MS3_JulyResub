@@ -3,8 +3,6 @@
 # Project Overview
 This site is being created to meet the needs of powerlifters specifically. As a powerlifter myself and a sports science graduate, I understand the importance of data as it relates to sport performance and training. Being precise with the stimulus that is applied during each training session will allow for more predictable results and a lower likelihood of injury. Also a grearter history of data will allow for more accurate predictions of future responses to training. Furthermore, powerlifters compete in the three main lifts which are the squat, the bench press, and the deadlift. While these are only three exercises, there are actually so many modifications of these exercises which most powerlifters regularly train. Keeping track of your performance in a distant variation of the main lift is a very important thing which is quite hard to do. Therefore, this app will be an easy way to look back over your performance in these more obscure lifts such as the 3 1 0 tempo, beltless, high bar squat. It will also allow the user to easily see their performance in the main lift which in this case is the low bar squat with a belt.
 
-## Running the project
-To run this project, firstly you need to run the sql file called gymdb3.sql. This will create the database and the tables within it. Next you need to run the sql file called makeDisplayExerciseView.sql. This will create a table which makes the displaying of the data on the front end much easier. On the python side, you need to install flask, pymysql, and dotenv. You will also have to create your own env.py file in which you declare your flask secret key and the database details.  
 
 # General Features
 ![Main Home Page](static/assets/img/landing-page-sg.PNG)
@@ -139,6 +137,49 @@ The fix for this bug was to add 'ON DELETE CASCADE' to the sql where the foreign
 - I used [this](https://blog.finxter.com/how-to-convert-list-of-tuples-to-list-of-lists-in-python/) resource to help with converting between lists and tuples which were nested inside each other
 - I used [this](https://www.youtube.com/watch?v=BdsOxKCThhA&t=609s) video to help with the javascript code which I wrote to create the sets table on the exercise input form
 
+## Deploying to Heroku
+### 1. Creating the Heroku App
+- To deploy this project to Heroku, the first thing you need to do is set up a heroku account. 
+- Next you need to create a new app on the Heroku Dashboard
+- Then, go to your project and install the Heroku command line interface by typing npm install -g heroku
+- This installs heroku system wide
+- Login into heroku on the command line by typing heroku login -i
+- Now you can go to the Heroku home page and click open app, and you will see that your app is running
+
+### 2. Connecting Git remote to Heroku
+- Go to the settings tab on the heroku dashboard and find your Heroku git url
+- Copy this URL and go back to your workspace terminal
+- To add a Heroku remote type 'git remote add heroku "heroku-git-url"'
+- This has now added your heroku remote and is now available to be pushed to
+
+### 3. Creating a requirements.txt file
+- In the terminal type 'pip3 freeze --local > requirements.txt'
+- This command generates a file with all the dependencies for the app
+- Now add your all files including the requirements.txt file to the staging area with the command 'git add .'
+- next push these files to heroku by typing 'git push -u heroku main' to push this code heroku
+
+### 4. Create a procfile
+- To create a procfile type 'echo web: python run.py > Procfile' in the terminal
+- Save this procfile
+- Add this Procfile to the staging area with the command 'git add Procfile'
+- Commit this Procfile with the command 'git commit -m "commit message" 
+- Finally, push to Heroku with 'git push'
+
+### 5. Adding environment variables to heroku
+- Go to the heroku dashboard and go to the settings tab
+- Scroll down and click on the reveal config vars
+- Input your apps ip, port, secret key and related environment variables
+
+## Running the app within a coding environment
+- I have built this project using the GitPod Environment, to work on this project you can clone the repository from GitHub.
+1. First you will need to create a GitHub account
+2. Install the GitPod extension for Google Chrome. 
+3. Restart your browser and navigate to my GitHub account and click on the green gitpod button
+4. This will open a new environment.
+5. In this new environment you will need to install the associated dependencies, that is, flask and pymysql.
+6. Next, you will need to run the sql files in the correct order, running the gymdb3.sql file first as this creates the database and then running the makeDisplayExerciseView.sql file second as this file is just helps with the displaying of the data on the user dashboard
+7. Note that you will need to create your own secret key for flask and login information for the database
+
 
 ## Testing
 
@@ -230,9 +271,20 @@ The fix for this bug was to add 'ON DELETE CASCADE' to the sql where the foreign
 5. Following this was the exercise entry form. After checking this form on both mobile and tablet devices, I was happy to finish this portion of the testing section. 
 6. At this point I decided to remove the footer element altogether, as there was no more information I needed or wanted to convey to the user. This actually helped with the layout issues on mobile and larger screens, especially the dashboard as it removed some of the clutter from an already crowded screen. 
 
-## Deployment 
+### Validation
+- This project has recieved a W3C CSS level 3 + SVG validation
+- The python in this project has been validated by online python [pep 8 validator](http://pep8online.com/) 
 
+## Unsolved Bugs
+- In terms of unwanted behaviour, there are only one or two concessions which I have made in the development of this app
+1. Users can submit a session with no exercises in it. This isn't necessarily a bug but it is just something that I became aware of during the testing process. I could have disabled the finish session button until the user has clicked on the page but I decided that the app handles a session with no exercises fine so changing how the exercise input forms work just for this one potential outcome wasn't worth it.
+2. The dashboard on mobile isn't exactly what I would like it to be, when I was planning the project I drastically overestimated how easy it would be to have an entire screen of dynamically collapsible elements which could be opened in a new page which was the initial plan.
 
+## Project Reflections
+- Following a module I completed in University on relational databases, I figured now would be the perfect time to combine what I had learned in college with my coding learning despite the recommended path being to create an app built around a non-relational database.
+- While I made the project much more difficult for myself than I needed to and spent very many hours worrying about this project and working hard on it, I'm happy I chose the path that I did.
+- I have learned that I do love python and this project in particular has spurred me on to pursue data-analytical coding jobs in the future. 
+- Furthermore, I have learned a lot about enviroment variables and how to use them correctly, knowledge I will take with me for every project I undertake from this point on.
 
 
 
