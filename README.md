@@ -3,7 +3,6 @@
 # Project Overview
 This site is being created to meet the needs of powerlifters specifically. As a powerlifter myself and a sports science graduate, I understand the importance of data as it relates to sport performance and training. Being precise with the stimulus that is applied during each training session will allow for more predictable results and a lower likelihood of injury. Also a grearter history of data will allow for more accurate predictions of future responses to training. Furthermore, powerlifters compete in the three main lifts which are the squat, the bench press, and the deadlift. While these are only three exercises, there are actually so many modifications of these exercises which most powerlifters regularly train. Keeping track of your performance in a distant variation of the main lift is a very important thing which is quite hard to do. Therefore, this app will be an easy way to look back over your performance in these more obscure lifts such as the 3 1 0 tempo, beltless, high bar squat. It will also allow the user to easily see their performance in the main lift which in this case is the low bar squat with a belt.
 
-
 # General Features
 ![Main Home Page](static/assets/img/landing-page-sg.PNG)
 ## This is the main home page the user will be greeted with when they first land on the site. The option to login will be the first option they are given.
@@ -286,7 +285,16 @@ The fix for this bug was to add 'ON DELETE CASCADE' to the sql where the foreign
 - I have learned that I do love python and this project in particular has spurred me on to pursue data-analytical coding jobs in the future. 
 - Furthermore, I have learned a lot about enviroment variables and how to use them correctly, knowledge I will take with me for every project I undertake from this point on.
 
+# *Fixes Made Following Submission
 
+- When I went to submit this project I realised I did not understand the nature of creating the database online. I just assumed that the database would just be hosted by heroku as well and all I would have to do was execute that code
+- Therefore to create a production database, I used ClearDB, the Heroku add on. 
+- I created an ignite grade database, then I created a data dump of the database which I was working with in the development environment. 
+- My next task was to import this to the ClearDB production environment however there were two problems.
+1. Firstly, I could no longer use the field in the session table called 'session workload' as this field was being calculated within the sql code itself and ClearDB won't allow you utilise stored procedures whilst using a free database.
+2. The code that was exported for creating the view which was being used to display the exercises in a user-interpretable manner was not running for syntactical issues as far as I'm aware. To overcome this, I copied the specific code for this from the sql file and pasted it into the python file as a sql execution. This allowed me to create this view.
+![Code used to do this](static/assets/img/adding-display-ex-view.PNG)
+- Here is the code block used, this code was used once and was then removed as the necessary change was made to the database
 
 
 

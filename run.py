@@ -21,8 +21,8 @@ def index():
         inputUsername = request.form['Username'].lower()
         inputPassword = request.form['Password1']
         connection = pymysql.connect(
-            host=os.env('DBHOST'), user=os.env('DBUSER'),
-            passwd=os.envi('DBPASSWORD'), db=os.env('DBNAME'))
+            host=os.environ.get('DBHOST'), user=os.environ.get('DBUSER'),
+            passwd=os.environ.get('DBPASSWORD'), db=os.environ.get('DBNAME'))
 
         # returning the username from the database
         with connection.cursor() as cursor:
@@ -70,8 +70,8 @@ def register():
 
         # connecting to the db
         connection = pymysql.connect(
-            host=os.env('DBHOST'), user=os.env('DBUSER'),
-            passwd=os.envi('DBPASSWORD'), db=os.env('DBNAME'))
+            host=os.environ.get('DBHOST'), user=os.environ.get('DBUSER'),
+            passwd=os.environ.get('DBPASSWORD'), db=os.environ.get('DBNAME'))
 
         # checking the db to see if the username or email have been used
         with connection.cursor() as cursor:
@@ -85,10 +85,11 @@ def register():
 
             # if username and email are available the user is added to the db
             else:
-                print('adding user to db')
                 connection = pymysql.connect(
-            host=os.env('DBHOST'), user=os.env('DBUSER'),
-            passwd=os.envi('DBPASSWORD'), db=os.env('DBNAME'))
+                    host=os.environ.get(
+                        'DBHOST'), user=os.environ.get('DBUSER'),
+                    passwd=os.environ.get('DBPASSWORD'), db=os.environ.get(
+                        'DBNAME'))
 
                 with connection.cursor() as cursor:
                     cursor.execute('''Insert into user(
@@ -112,8 +113,8 @@ def dashboard():
     # This page cannot be accessed unless the user is in session
     if session["user"]:
         connection = pymysql.connect(
-            host=os.env('DBHOST'), user=os.env('DBUSER'),
-            passwd=os.envi('DBPASSWORD'), db=os.env('DBNAME'))
+            host=os.environ.get('DBHOST'), user=os.environ.get('DBUSER'),
+            passwd=os.environ.get('DBPASSWORD'), db=os.environ.get('DBNAME'))
 
         # This block finds the UserId of the logged in user
         with connection.cursor() as cursor:
@@ -168,7 +169,7 @@ def dashboard():
                                     IF(TempoType != '',
                                     CONCAT(', Tempo ', TempoType), ''))
                                     as ExerciseTextualDescription
-                                    FROM gymdb.display_exercise
+                                    FROM heroku_3234ac0184b479c.ex_display
                                     where SessionId = %s''', x)
                 exercise = cursor.fetchall()
                 exerciselist.append(exercise)
@@ -216,8 +217,8 @@ def log1():
     # This page was used to log basic session data
     if request.method == 'POST':
         connection = pymysql.connect(
-            host=os.getenv('DBHOST'), user=os.getenv('DBUSER'),
-            passwd=os.getenv('DBPASSWORD'), db=os.getenv('DBNAME'))
+            host=os.environ.get('DBHOST'), user=os.environ.get('DBUSER'),
+            passwd=os.environ.get('DBPASSWORD'), db=os.environ.get('DBNAME'))
 
         # This found the user id for this user from the db
         with connection.cursor() as cursor:
@@ -252,8 +253,8 @@ def log1():
 @app.route("/log2", methods=["GET", "POST"])
 def log2():
     connection = pymysql.connect(
-            host=os.getenv('DBHOST'), user=os.getenv('DBUSER'),
-            passwd=os.getenv('DBPASSWORD'), db=os.getenv('DBNAME'))
+        host=os.environ.get('DBHOST'), user=os.environ.get('DBUSER'),
+        passwd=os.environ.get('DBPASSWORD'), db=os.environ.get('DBNAME'))
 
     # This is the exercise input section
     # These cursors all return the various
@@ -401,8 +402,8 @@ def log2():
 @app.route("/edit_session/<SessionId>", methods=["GET", "POST"])
 def edit_session(SessionId):
     connection = pymysql.connect(
-            host=os.getenv('DBHOST'), user=os.getenv('DBUSER'),
-            passwd=os.getenv('DBPASSWORD'), db=os.getenv('DBNAME'))
+        host=os.environ.get('DBHOST'), user=os.environ.get('DBUSER'),
+        passwd=os.environ.get('DBPASSWORD'), db=os.environ.get('DBNAME'))
 
     if request.method == 'POST':
         sessionname = request.form["session-name"]
@@ -437,8 +438,8 @@ def edit_session(SessionId):
 @app.route("/delete_session/<SessionId>")
 def delete_session(SessionId):
     connection = pymysql.connect(
-        host=os.getenv('DBHOST'), user=os.getenv('DBUSER'),
-        passwd=os.getenv('DBPASSWORD'), db=os.getenv('DBNAME'))
+        host=os.environ.get('DBHOST'), user=os.environ.get('DBUSER'),
+        passwd=os.environ.get('DBPASSWORD'), db=os.environ.get('DBNAME'))
 
     # This deletes the session, the associated exercises
     # and all sets inputted related to those exercises
@@ -460,8 +461,8 @@ def delete_session(SessionId):
 @app.route("/delete_exercise/<ExerciseId>")
 def delete_exercise(ExerciseId):
     connection = pymysql.connect(
-        host=os.getenv('DBHOST'), user=os.getenv('DBUSER'),
-        passwd=os.getenv('DBPASSWORD'), db=os.getenv('DBNAME'))
+        host=os.environ.get('DBHOST'), user=os.environ.get('DBUSER'),
+        passwd=os.environ.get('DBPASSWORD'), db=os.environ.get('DBNAME'))
     with connection.cursor() as cursor:
         cursor.execute('''
         DELETE FROM exercise
@@ -485,8 +486,8 @@ def logout():
 def admin_dash():
     if session["user"]:
         connection = pymysql.connect(
-            host=os.getenv('DBHOST'), user=os.getenv('DBUSER'),
-            passwd=os.getenv('DBPASSWORD'), db=os.getenv('DBNAME'))
+            host=os.environ.get('DBHOST'), user=os.environ.get('DBUSER'),
+            passwd=os.environ.get('DBPASSWORD'), db=os.environ.get('DBNAME'))
 
         with connection.cursor() as cursor:
             cursor.execute(
@@ -521,7 +522,7 @@ def admin_dash():
                                     IF(TempoType != '',
                                     CONCAT(', Tempo ', TempoType), ''))
                                     as ExerciseTextualDescription
-                                    FROM gymdb.display_exercise''')
+                                    FROM heroku_3234ac0184b479c.ex_display''')
             exercises = cursor.fetchall()
             cursor.close()
         with connection.cursor() as cursor:
@@ -538,4 +539,4 @@ if __name__ == "__main__":
     app.run(
         host=os.environ.get("IP"),
         port=int(os.environ.get("PORT")),
-        debug=True)
+        debug=False)
